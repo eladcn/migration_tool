@@ -80,11 +80,9 @@
       <DependentUpon>FixSceneryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="General\Helper.cs" />
-    <Compile Include="General\MigrationEncryption.cs" />
     <Compile Include="General\SettingsHandler.cs" />
     <Compile Include="General\SimulatorOptions.cs" />
     <Compile Include="General\SimulatorOption.cs" />
-    <Compile Include="General\VersionHandler.cs" />
     <Compile Include="LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>

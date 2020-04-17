@@ -207,7 +207,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
             {
                 fillMigrationComboOptions(migrateTargetCombo, defaultIgnoreToMigrationItems, true);
 
-                //Making sure we have at least 1 simulator to migrate to, else we exit the program
+                //Making sure we have at least 1 simulator to migrate to, else we exit the program.
                 if (migrateTargetCombo.Items.Count == 0)
                 {
                     MessageBox.Show("The program could not identify any simulators to migrate to on this computer.\nThe application will now exit.");

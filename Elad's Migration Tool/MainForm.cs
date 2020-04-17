@@ -104,7 +104,7 @@ namespace Elad_s_Migration_Tool
          */
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This program was created by Elad Cohen.\nI hope you enjoy the program and if you have any problems or questions, please send me an email to:\nelad.metal@gmail.com");
+            MessageBox.Show("This program was created by Elad Cohen.\nI hope you enjoy the program and if you have any problems or questions, please send me an email to:\neladcn92@gmail.com");
         }
 
         /**

@@ -33,8 +33,6 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         {
             closeIfAlreadyRunning();
 
-            VersionHandler.showUpgradeMessage();
-
             MigrationComboFunctions.fillSourceMigrationComboOptions();
             MigrationComboFunctions.fillTargetMigrationComboOptions();
 
