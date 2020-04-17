@@ -36,7 +36,11 @@ Do not force close the program using the Task Manager!
 Doing so may break your simulators' configuration files!
 
 ## Screenshots
-Coming soon.
+![Main](/screenshots/1.png)
+
+![Settings](/screenshots/2.png)
+
+![Config Files Restoration Tool](/screenshots/3.png)
 
 ## FAQ
 Q: When I run the program the following error shows up: "The program could not identify any simulators to migrate to on this computer.", what do I do?  
