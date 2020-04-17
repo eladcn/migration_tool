@@ -14,7 +14,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns a RegistryKey object.
          */
-        protected static RegistryKey getRegistryObject(bool isLocalMachine)
+        protected static RegistryKey GetRegistryObject(bool isLocalMachine)
         {
             if (isLocalMachine)
             {
@@ -30,13 +30,13 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns a registry key value according to the keyPath and keyName.
          */
-        public static string getRegistryValue(string fullKeyPath)
+        public static string GetRegistryValue(string fullKeyPath)
         {
-            bool isLocalMachine = isLocalMachinePath(fullKeyPath);
-            string keyName = getSubkeyFromPath(fullKeyPath);
-            string keyPath = getPathFromFullPath(fullKeyPath);
+            bool isLocalMachine = IsLocalMachinePath(fullKeyPath);
+            string keyName = GetSubkeyFromPath(fullKeyPath);
+            string keyPath = GetPathFromFullPath(fullKeyPath);
 
-            RegistryKey regKey = getRegistryObject(isLocalMachine);
+            RegistryKey regKey = GetRegistryObject(isLocalMachine);
             RegistryKey subKey = regKey.OpenSubKey(keyPath);
 
             if (regKey == null)
@@ -69,36 +69,28 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         }
 
         /**
-         * Returns whether a registry key exists or not.
-         */
-        public static bool registryKeyExists(string fullKeyPath)
-        {
-            return !getRegistryValue(fullKeyPath).Equals("");
-        }
-
-        /**
          * Sets a specific registry key's value.
          */
-        public static bool setRegistryValue(string fullKeyPath, object value, bool forceWrite)
+        public static bool SetRegistryValue(string fullKeyPath, object value, bool forceWrite)
         {
             if (!forceWrite)
             {
-                if (getRegistryValue(fullKeyPath).Equals(""))
+                if (GetRegistryValue(fullKeyPath).Equals(""))
                 {
                     return false;
                 }
             }
 
-            if (!createRegistryKeyIfNotExists(fullKeyPath))
+            if (!CreateRegistryKeyIfNotExists(fullKeyPath))
             {
                 return false;
             }
 
-            bool isLocalMachine = isLocalMachinePath(fullKeyPath);
-            string keyName = getSubkeyFromPath(fullKeyPath);
-            string keyPath = getPathFromFullPath(fullKeyPath);
+            bool isLocalMachine = IsLocalMachinePath(fullKeyPath);
+            string keyName = GetSubkeyFromPath(fullKeyPath);
+            string keyPath = GetPathFromFullPath(fullKeyPath);
 
-            RegistryKey regKey = getRegistryObject(isLocalMachine);
+            RegistryKey regKey = GetRegistryObject(isLocalMachine);
 
             if (regKey == null)
             {
@@ -122,7 +114,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
             catch (Exception e)
             {
                 regKey.Close();
-                ErrorLogger.logError("Unable to write to registry, function setRegistryValue() - " + e);
+                ErrorLogger.LogError("Unable to write to registry, function setRegistryValue() - " + e);
 
                 return false;
             }
@@ -131,13 +123,13 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Deletes a specific registry key.
          */
-        public static bool deleteRegistryKey(string fullKeyPath)
+        public static bool DeleteRegistryKey(string fullKeyPath)
         {
-            bool isLocalMachine = isLocalMachinePath(fullKeyPath);
-            string keyName = getSubkeyFromPath(fullKeyPath);
-            string keyPath = getPathFromFullPath(fullKeyPath);
+            bool isLocalMachine = IsLocalMachinePath(fullKeyPath);
+            string keyName = GetSubkeyFromPath(fullKeyPath);
+            string keyPath = GetPathFromFullPath(fullKeyPath);
 
-            RegistryKey regKey = getRegistryObject(isLocalMachine);
+            RegistryKey regKey = GetRegistryObject(isLocalMachine);
 
             if (regKey == null)
             {
@@ -161,7 +153,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
             catch (Exception e)
             {
                 regKey.Close();
-                ErrorLogger.logError("Unable to delete registry key, function deleteRegistryKey() - " + e);
+                ErrorLogger.LogError("Unable to delete registry key, function deleteRegistryKey() - " + e);
 
                 return false;
             }
@@ -170,17 +162,17 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Creates a registry key only if the key does not exist in the registry.
          */
-        public static bool createRegistryKeyIfNotExists(string fullKeyPath)
+        public static bool CreateRegistryKeyIfNotExists(string fullKeyPath)
         {
-            if (fullKeyPath.Equals("") || !getRegistryValue(fullKeyPath).Equals(""))
+            if (fullKeyPath.Equals("") || !GetRegistryValue(fullKeyPath).Equals(""))
             {
                 return true;
             }
 
-            bool isLocalMachine = isLocalMachinePath(fullKeyPath);
-            string[] keyTrail = getKeyTrailFromPath(fullKeyPath);
+            bool isLocalMachine = IsLocalMachinePath(fullKeyPath);
+            string[] keyTrail = GetKeyTrailFromPath(fullKeyPath);
 
-            RegistryKey regKey = getRegistryObject(isLocalMachine);
+            RegistryKey regKey = GetRegistryObject(isLocalMachine);
 
             if (regKey == null)
             {
@@ -222,7 +214,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
                         regKey.Close();
                     }
 
-                    ErrorLogger.logError("Unable to create registry key, function createRegistryKeyIfNotExists() - " + e);
+                    ErrorLogger.LogError("Unable to create registry key, function createRegistryKeyIfNotExists() - " + e);
 
                     return false;
                 }
@@ -244,7 +236,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns whether a path is a HKEY_LOCAL_MACHINE path or not.
          */
-        public static bool isLocalMachinePath(string path)
+        public static bool IsLocalMachinePath(string path)
         {
             return path.IndexOf("HKEY_LOCAL_MACHINE") >= 0;
         }
@@ -252,7 +244,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns the subkey from a registry path.
          */
-        public static string getSubkeyFromPath(string path)
+        public static string GetSubkeyFromPath(string path)
         {
             while (path.LastIndexOf("\\") == path.Length - 1)
             {
@@ -265,7 +257,7 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns the path without the subkey name.
          */
-        public static string getPathFromFullPath(string path)
+        public static string GetPathFromFullPath(string path)
         {
             while (path.LastIndexOf("\\") == path.Length - 1)
             {
@@ -281,9 +273,9 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Returns all the subkeys of the path.
          */
-        public static string[] getKeyTrailFromPath(string path)
+        public static string[] GetKeyTrailFromPath(string path)
         {
-            path = getPathFromFullPath(path);
+            path = GetPathFromFullPath(path);
 
             while (path.LastIndexOf("\\") == path.Length - 1)
             {

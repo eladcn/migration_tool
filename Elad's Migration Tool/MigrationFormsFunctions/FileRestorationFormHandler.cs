@@ -12,7 +12,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Adds a date to the dates list according to the folder name.
          */
-        protected static bool addDateToList(List<string> dates, string folderName)
+        protected static bool AddDateToList(List<string> dates, string folderName)
         {
             if (!folderName.Contains("_"))
             {
@@ -44,15 +44,15 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Restores the files according to the date.
          */
-        public static bool restoreFiles(string date)
+        public static bool RestoreFiles(string date)
         {
-            SimulatorOption targetSimulator = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption targetSimulator = MainFormHandler.GetSelectedTargetSimulator();
 
-            string appDataPath = targetSimulator.getAppDataPath(true);
-            string programDataPath = targetSimulator.getProgramDataPath(true);
+            string appDataPath = targetSimulator.GetAppDataPath(true);
+            string programDataPath = targetSimulator.GetProgramDataPath(true);
 
-            string appDataBackupPath = targetSimulator.getAppDataPath(true) + "\\migrationBackup";
-            string programDataBackupPath = targetSimulator.getProgramDataPath(true) + "\\migrationBackup";
+            string appDataBackupPath = targetSimulator.GetAppDataPath(true) + "\\migrationBackup";
+            string programDataBackupPath = targetSimulator.GetProgramDataPath(true) + "\\migrationBackup";
 
             string[] fullDateSplitted = date.Split(' ');
             string[] timeSplitted = fullDateSplitted[1].Split(':');
@@ -82,7 +82,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                     }
                     catch (Exception e)
                     {
-                        ErrorLogger.logError("Could not copy file from migrationBackup, function restoreFiles() - " + e.ToString());
+                        ErrorLogger.LogError("Could not copy file from migrationBackup, function restoreFiles() - " + e.ToString());
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                     }
                     catch (Exception e)
                     {
-                        ErrorLogger.logError("Could not copy file from migrationBackup, function restoreFiles() - " + e.ToString());
+                        ErrorLogger.LogError("Could not copy file from migrationBackup, function restoreFiles() - " + e.ToString());
                     }
                 }
             }
@@ -113,12 +113,12 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Initializes the backup dates.
          */
-        public static void onLoadHandler()
+        public static void OnLoadHandler()
         {
-            SimulatorOption targetSimulator = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption targetSimulator = MainFormHandler.GetSelectedTargetSimulator();
 
-            string appDataPath = targetSimulator.getAppDataPath(true) + "\\migrationBackup";
-            string programDataPath = targetSimulator.getProgramDataPath(true) + "\\migrationBackup";
+            string appDataPath = targetSimulator.GetAppDataPath(true) + "\\migrationBackup";
+            string programDataPath = targetSimulator.GetProgramDataPath(true) + "\\migrationBackup";
 
             List<string> dates = new List<string>();
             bool appDataExists = Directory.Exists(appDataPath);
@@ -132,7 +132,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
 
                     foreach (string dir in appDataDirectories)
                     {
-                        addDateToList(dates, dir);
+                        AddDateToList(dates, dir);
                     }
                 }
 
@@ -142,15 +142,15 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
 
                     foreach (string dir in programDataDirectories)
                     {
-                        addDateToList(dates, dir);
+                        AddDateToList(dates, dir);
                     }
                 }
             }
 
             if (dates.Count > 0)
             {
-                ComboBox restoreDatesCombo = FileRestorationForm.getRestoreDatesCombo();
-                Button restoreButton = FileRestorationForm.getRestoreButton();
+                ComboBox restoreDatesCombo = FileRestorationForm.GetRestoreDatesCombo();
+                Button restoreButton = FileRestorationForm.GetRestoreButton();
 
                 dates.Reverse();
 

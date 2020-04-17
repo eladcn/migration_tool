@@ -11,20 +11,20 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Sets a specific setting in the settings file. If the setting already exists - it replaces it.
          */
-        public static void setSetting(string key, string value)
+        public static void SetSetting(string key, string value)
         {
-            if (!getSetting(key).Equals(""))
+            if (!GetSetting(key).Equals(""))
             {
-                removeSetting(key);
+                RemoveSetting(key);
             }
 
-            Helper.writeLineToText(settingsFileName, key + "=" + value);
+            Helper.WriteLineToText(settingsFileName, key + "=" + value);
         }
 
         /**
          * Returns the value of a specific key.
          */
-        public static string getSetting(string key)
+        public static string GetSetting(string key)
         {
             if (!File.Exists(settingsFileName))
             {
@@ -58,9 +58,9 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Removes a specific key from the settings file.
          */
-        public static void removeSetting(string key)
+        public static void RemoveSetting(string key)
         {
-            if(getSetting(key).Equals("")){
+            if(GetSetting(key).Equals("")){
                 return;
             }
 
@@ -86,26 +86,26 @@ namespace Elad_s_Migration_Tool.General
 
             fileStream.Close();
 
-            setSettingsFile(newSettings);
+            SetSettingsFile(newSettings);
         }
 
         /**
          * Sets the content of the settings file.
          */
-        public static void setSettingsFile(List<string> settings)
+        public static void SetSettingsFile(List<string> settings)
         {
-            if (!deleteSettingsFile())
+            if (!DeleteSettingsFile())
             {
                 return;
             }
 
-            Helper.setTextFileContent(settingsFileName, settings);
+            Helper.SetTextFileContent(settingsFileName, settings);
         }
 
         /**
          * Deletes the settings file.
          */
-        public static bool deleteSettingsFile()
+        public static bool DeleteSettingsFile()
         {
             if (File.Exists(settingsFileName))
             {

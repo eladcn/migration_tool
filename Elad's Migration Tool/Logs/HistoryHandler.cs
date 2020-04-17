@@ -17,7 +17,7 @@ namespace Elad_s_Migration_Tool.Logs
         /**
          * Gives the hidden attribute to the file.
          */
-        protected static void hideHistoryFile()
+        protected static void HideHistoryFile()
         {
             if (!File.Exists(historyFileName))
             {
@@ -35,16 +35,16 @@ namespace Elad_s_Migration_Tool.Logs
         /**
          * Appends a line to the history file.
          */
-        public static void appendHistory(string data)
+        public static void AppendHistory(string data)
         {
-            Helper.writeLineToText(historyFileName, data);
-            hideHistoryFile();
+            Helper.WriteLineToText(historyFileName, data);
+            HideHistoryFile();
         }
 
         /**
          * Deletes the history log file (if exists).
          */
-        public static bool deleteHistoryFile()
+        public static bool DeleteHistoryFile()
         {
             if (File.Exists(historyFileName))
             {
@@ -66,37 +66,27 @@ namespace Elad_s_Migration_Tool.Logs
         /**
          * Sets the content of the history file using a given List that includes all the rows.
          */
-        public static void setHistory(List<string> data)
+        public static void SetHistory(List<string> data)
         {
-            deleteHistoryFile();
+            DeleteHistoryFile();
 
-            Helper.setTextFileContent(historyFileName, data);
+            Helper.SetTextFileContent(historyFileName, data);
 
-            hideHistoryFile();
+            HideHistoryFile();
         }
 
         /**
          * Returns a list that includes all the content of the history file.
          */
-        public static List<string> getHistory()
+        public static List<string> GetHistory()
         {
-            return Helper.getTextFileContent(historyFileName);
-        }
-
-        /**
-         * Returns whether the history file is empty.
-         */
-        public static bool isEmptyHistoryFile()
-        {
-            List<string> history = getHistory();
-
-            return history.Count <= 0;
+            return Helper.GetTextFileContent(historyFileName);
         }
 
         /**
          * Returns whether a row in the history file is valid and was not tampered with.
          */
-        protected static bool isValidHistoryRow(string row){
+        protected static bool IsValidHistoryRow(string row){
             if(row.IndexOf(',') < 0){
                 return false;
             }
@@ -121,17 +111,17 @@ namespace Elad_s_Migration_Tool.Logs
         /**
          * Reverts all changes according to the history file.
          */
-        public static bool revertChanges()
+        public static bool RevertChanges()
         {
-            FileListeners.removeListeners();
+            FileListeners.RemoveListeners();
 
-            List<string> history = getHistory();
+            List<string> history = GetHistory();
             history.Reverse();
             List<string> newHistory = new List<string>(history);
 
             foreach (string item in history)
             {
-                if (!isValidHistoryRow(item))
+                if (!IsValidHistoryRow(item))
                 {
                     newHistory.Remove(item);
 
@@ -148,7 +138,7 @@ namespace Elad_s_Migration_Tool.Logs
                     case 1:
                         //Revert registry changes.
                         simOptionVal = Int32.Parse(itemData[1]);
-                        simOption = SimulatorOptions.getOptionByVal(simOptionVal);
+                        simOption = SimulatorOptions.GetOptionByVal(simOptionVal);
 
                         if (simOption != null)
                         {
@@ -156,7 +146,7 @@ namespace Elad_s_Migration_Tool.Logs
                             int registryIndex = Int32.Parse(itemData[2]);
                             int counter = 0;
 
-                            foreach (string registryPath in simOption.getRegistryPaths())
+                            foreach (string registryPath in simOption.GetRegistryPaths())
                             {
                                 if (registryIndex != counter)
                                 {
@@ -166,13 +156,13 @@ namespace Elad_s_Migration_Tool.Logs
 
                                 if (deleteKey)
                                 {
-                                    RegistryInterface.deleteRegistryKey(registryPath);
+                                    RegistryInterface.DeleteRegistryKey(registryPath);
                                 }
                                 else
                                 {
                                     string sourcePath = itemData[3];
 
-                                    RegistryInterface.setRegistryValue(registryPath, sourcePath, true);
+                                    RegistryInterface.SetRegistryValue(registryPath, sourcePath, true);
                                 }
 
                                 counter++;
@@ -184,17 +174,17 @@ namespace Elad_s_Migration_Tool.Logs
                         break;
                     case 2:
                         //Delete the fake FSX executable file.
-                        simOption = MainFormHandler.getSelectedTargetSimulator();
-                        FilesHandler.deleteFakeFsxExecutable(simOption.getSimPath());
+                        simOption = MainFormHandler.GetSelectedTargetSimulator();
+                        FilesHandler.DeleteFakeFsxExecutable(simOption.GetSimPath());
                         newHistory.Remove(item);
 
                         break;
                     case 3:
                         //Restore the config files from the migrationBackup folder and delete the file from the backup folder.
                         simOptionVal = Int32.Parse(itemData[1]);
-                        simOption = SimulatorOptions.getOptionByVal(simOptionVal);
+                        simOption = SimulatorOptions.GetOptionByVal(simOptionVal);
 
-                        FilesHandler.restoreSourceConfigFiles(simOption);
+                        FilesHandler.RestoreSourceConfigFiles(simOption);
 
                         newHistory.Remove(item);
 
@@ -203,7 +193,7 @@ namespace Elad_s_Migration_Tool.Logs
             }
 
             //Sets the history file content.
-            setHistory(newHistory);
+            SetHistory(newHistory);
 
             return true;
         }

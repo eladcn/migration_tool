@@ -31,80 +31,87 @@
             this.descriptionLabel1 = new System.Windows.Forms.Label();
             this.descriptionLabel2 = new System.Windows.Forms.Label();
             this.descriptionLabel3 = new System.Windows.Forms.Label();
-            this.restoreDatesCombo = new System.Windows.Forms.ComboBox();
-            this.restoreButton = new System.Windows.Forms.Button();
-            this.closeButton = new System.Windows.Forms.Button();
+            this.RestoreDatesCombo = new System.Windows.Forms.ComboBox();
+            this.RestoreButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // descriptionLabel1
             // 
             this.descriptionLabel1.AutoSize = true;
-            this.descriptionLabel1.Location = new System.Drawing.Point(12, 9);
+            this.descriptionLabel1.Location = new System.Drawing.Point(9, 7);
+            this.descriptionLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.descriptionLabel1.Name = "descriptionLabel1";
-            this.descriptionLabel1.Size = new System.Drawing.Size(441, 17);
+            this.descriptionLabel1.Size = new System.Drawing.Size(330, 13);
             this.descriptionLabel1.TabIndex = 0;
             this.descriptionLabel1.Text = "If anything wrong happened in the process and the simulator\'s config";
             // 
             // descriptionLabel2
             // 
             this.descriptionLabel2.AutoSize = true;
-            this.descriptionLabel2.Location = new System.Drawing.Point(12, 26);
+            this.descriptionLabel2.Location = new System.Drawing.Point(9, 21);
+            this.descriptionLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.descriptionLabel2.Name = "descriptionLabel2";
-            this.descriptionLabel2.Size = new System.Drawing.Size(470, 17);
+            this.descriptionLabel2.Size = new System.Drawing.Size(348, 13);
             this.descriptionLabel2.TabIndex = 1;
             this.descriptionLabel2.Text = "files were damaged, it is possible to restore the config files using this tool.";
             // 
             // descriptionLabel3
             // 
             this.descriptionLabel3.AutoSize = true;
-            this.descriptionLabel3.Location = new System.Drawing.Point(12, 43);
+            this.descriptionLabel3.Location = new System.Drawing.Point(9, 35);
+            this.descriptionLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.descriptionLabel3.Name = "descriptionLabel3";
-            this.descriptionLabel3.Size = new System.Drawing.Size(452, 17);
+            this.descriptionLabel3.Size = new System.Drawing.Size(340, 13);
             this.descriptionLabel3.TabIndex = 2;
             this.descriptionLabel3.Text = "Please select the date you would like to restore from and hit \"Restore\".";
             // 
-            // restoreDatesCombo
+            // RestoreDatesCombo
             // 
-            this.restoreDatesCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.restoreDatesCombo.FormattingEnabled = true;
-            this.restoreDatesCombo.Location = new System.Drawing.Point(15, 78);
-            this.restoreDatesCombo.Name = "restoreDatesCombo";
-            this.restoreDatesCombo.Size = new System.Drawing.Size(264, 24);
-            this.restoreDatesCombo.TabIndex = 3;
+            this.RestoreDatesCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RestoreDatesCombo.FormattingEnabled = true;
+            this.RestoreDatesCombo.Location = new System.Drawing.Point(11, 63);
+            this.RestoreDatesCombo.Margin = new System.Windows.Forms.Padding(2);
+            this.RestoreDatesCombo.Name = "RestoreDatesCombo";
+            this.RestoreDatesCombo.Size = new System.Drawing.Size(199, 21);
+            this.RestoreDatesCombo.TabIndex = 3;
             // 
-            // restoreButton
+            // RestoreButton
             // 
-            this.restoreButton.Enabled = false;
-            this.restoreButton.Location = new System.Drawing.Point(15, 108);
-            this.restoreButton.Name = "restoreButton";
-            this.restoreButton.Size = new System.Drawing.Size(264, 24);
-            this.restoreButton.TabIndex = 4;
-            this.restoreButton.Text = "Restore";
-            this.restoreButton.UseVisualStyleBackColor = true;
-            this.restoreButton.Click += new System.EventHandler(this.restoreButton_Click);
+            this.RestoreButton.Enabled = false;
+            this.RestoreButton.Location = new System.Drawing.Point(11, 88);
+            this.RestoreButton.Margin = new System.Windows.Forms.Padding(2);
+            this.RestoreButton.Name = "RestoreButton";
+            this.RestoreButton.Size = new System.Drawing.Size(199, 20);
+            this.RestoreButton.TabIndex = 4;
+            this.RestoreButton.Text = "Restore";
+            this.RestoreButton.UseVisualStyleBackColor = true;
+            this.RestoreButton.Click += new System.EventHandler(this.RestoreButton_Click);
             // 
-            // closeButton
+            // CloseButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(349, 89);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(122, 43);
-            this.closeButton.TabIndex = 5;
-            this.closeButton.Text = "Close";
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.CloseButton.Location = new System.Drawing.Point(262, 72);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(2);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(92, 35);
+            this.CloseButton.TabIndex = 5;
+            this.CloseButton.Text = "Close";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // FileRestorationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 139);
-            this.Controls.Add(this.closeButton);
-            this.Controls.Add(this.restoreButton);
-            this.Controls.Add(this.restoreDatesCombo);
+            this.ClientSize = new System.Drawing.Size(362, 113);
+            this.Controls.Add(this.CloseButton);
+            this.Controls.Add(this.RestoreButton);
+            this.Controls.Add(this.RestoreDatesCombo);
             this.Controls.Add(this.descriptionLabel3);
             this.Controls.Add(this.descriptionLabel2);
             this.Controls.Add(this.descriptionLabel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FileRestorationForm";
             this.Text = "Restore Config Files";
@@ -119,8 +126,8 @@
         private System.Windows.Forms.Label descriptionLabel1;
         private System.Windows.Forms.Label descriptionLabel2;
         private System.Windows.Forms.Label descriptionLabel3;
-        private System.Windows.Forms.ComboBox restoreDatesCombo;
-        private System.Windows.Forms.Button restoreButton;
-        private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.ComboBox RestoreDatesCombo;
+        private System.Windows.Forms.Button RestoreButton;
+        private System.Windows.Forms.Button CloseButton;
     }
 }

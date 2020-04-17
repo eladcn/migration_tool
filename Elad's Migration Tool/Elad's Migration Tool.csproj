@@ -73,26 +73,13 @@
     </Compile>
     <Compile Include="FilesFunctions\FileListeners.cs" />
     <Compile Include="FilesFunctions\FilesHandler.cs" />
-    <Compile Include="FixSceneryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FixSceneryForm.Designer.cs">
-      <DependentUpon>FixSceneryForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="General\Helper.cs" />
     <Compile Include="General\SettingsHandler.cs" />
     <Compile Include="General\SimulatorOptions.cs" />
     <Compile Include="General\SimulatorOption.cs" />
-    <Compile Include="LoadingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoadingForm.Designer.cs">
-      <DependentUpon>LoadingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Logs\ErrorLogger.cs" />
     <Compile Include="Logs\HistoryHandler.cs" />
     <Compile Include="MigrationFormsFunctions\FileRestorationFormHandler.cs" />
-    <Compile Include="MigrationFormsFunctions\FixSceneryHandler.cs" />
     <Compile Include="MigrationFormsFunctions\MainFormHandler.cs" />
     <Compile Include="MigrationFormsFunctions\MigrationComboFunctions.cs" />
     <Compile Include="MigrationFormsFunctions\SettingsFormHandler.cs" />
@@ -114,12 +101,6 @@
     </Compile>
     <EmbeddedResource Include="FileRestorationForm.resx">
       <DependentUpon>FileRestorationForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FixSceneryForm.resx">
-      <DependentUpon>FixSceneryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LoadingForm.resx">
-      <DependentUpon>LoadingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -165,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="airplane-57-128.ico" />
-    <None Include="Resources\imagetool.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

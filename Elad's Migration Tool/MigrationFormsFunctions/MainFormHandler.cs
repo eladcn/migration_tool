@@ -15,7 +15,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         protected const string START_MIGRATION_TEXT = "Start Migration";
         protected const string STOP_MIGRATION_TEXT = "Stop Migration";
 
-        protected static Button startMigrateButton = MainForm.getStartMigrateButton();
+        protected static Button startMigrateButton = MainForm.GetStartMigrateButton();
         protected static bool ignoreSourceMigrationChange = true;
         protected static bool ignoreTargetMigrationChange = true;
 
@@ -29,62 +29,62 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the main form's load functionality.
          */
-        public static void onLoadHandler()
+        public static void OnLoadHandler()
         {
-            closeIfAlreadyRunning();
+            CloseIfAlreadyRunning();
 
-            MigrationComboFunctions.fillSourceMigrationComboOptions();
-            MigrationComboFunctions.fillTargetMigrationComboOptions();
+            MigrationComboFunctions.FillSourceMigrationComboOptions();
+            MigrationComboFunctions.FillTargetMigrationComboOptions();
 
             //If the settings exist, we initialize the selected options from the settings
-            string migrationSourceVal = SettingsHandler.getSetting("migrationSource");
-            string migrationTargetVal = SettingsHandler.getSetting("migrationTarget");
+            string migrationSourceVal = SettingsHandler.GetSetting("migrationSource");
+            string migrationTargetVal = SettingsHandler.GetSetting("migrationTarget");
 
             if (!migrationSourceVal.Equals(""))
             {
-                SimulatorOptions.setSelectedOptionByVal(MainForm.getMigrateSourceCombo(), Int32.Parse(migrationSourceVal));
+                SimulatorOptions.SetSelectedOptionByVal(MainForm.GetMigrateSourceCombo(), Int32.Parse(migrationSourceVal));
             }
 
             if (!migrationTargetVal.Equals(""))
             {
-                SimulatorOptions.setSelectedOptionByVal(MainForm.getMigrateTargetCombo(), Int32.Parse(migrationTargetVal));
+                SimulatorOptions.SetSelectedOptionByVal(MainForm.GetMigrateTargetCombo(), Int32.Parse(migrationTargetVal));
             }
 
-            string isStarted = SettingsHandler.getSetting("started");
-            string autoStart = SettingsHandler.getSetting("autoStart");
+            string isStarted = SettingsHandler.GetSetting("started");
+            string autoStart = SettingsHandler.GetSetting("autoStart");
 
             //Initializes the listeners if the auto start option is available and the migration is in started mode.
             if (isStarted.Equals("1") && autoStart.Equals("1"))
             {
                 startMigrateButton.Text = STOP_MIGRATION_TEXT;
 
-                disableMigrationCombos();
-                FileListeners.initStaticListeners();
+                DisableMigrationCombos();
+                FileListeners.InitStaticListeners();
             }
             else
             {
-                SettingsHandler.setSetting("started", "0");
-                FilesHandler.restoreSourceConfigFiles(getSelectedSourceSimulator()); //Restores the source config files if exist
+                SettingsHandler.SetSetting("started", "0");
+                FilesHandler.RestoreSourceConfigFiles(GetSelectedSourceSimulator()); //Restores the source config files if exist
             }
 
-            initializeDefaultSettings();
+            InitializeDefaultSettings();
         }
 
         /**
          * Handles the start migration button's functionality.
          */
-        public static void startMigrationHandler()
+        public static void StartMigrationHandler()
         {
-            string isStarted = SettingsHandler.getSetting("started");
+            string isStarted = SettingsHandler.GetSetting("started");
 
             if (isStarted.Equals("1"))
             {                
-                if (HistoryHandler.revertChanges())
+                if (HistoryHandler.RevertChanges())
                 {
-                    SettingsHandler.setSetting("started", "0");
+                    SettingsHandler.SetSetting("started", "0");
                     startMigrateButton.Text = START_MIGRATION_TEXT;
-                    enableMigrationCombos();
-                    stopSpecialAddonListeners();
+                    EnableMigrationCombos();
+                    StopSpecialAddonListeners();
                 }
                 else
                 {
@@ -93,40 +93,40 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
             }
             else
             {
-                disableMigrationCombos();
+                DisableMigrationCombos();
 
-                if (!FileListeners.initStaticListeners())
+                if (!FileListeners.InitStaticListeners())
                 {
-                    HistoryHandler.revertChanges();
+                    HistoryHandler.RevertChanges();
                     MessageBox.Show("An error has occured, please try again or contact the developer for support.");
-                    enableMigrationCombos();
+                    EnableMigrationCombos();
 
                     return;
                 }
 
-                if (!RegistryHandler.setSourceAsTarget())
+                if (!RegistryHandler.SetSourceAsTarget())
                 {
-                    FileListeners.removeListeners();
-                    HistoryHandler.revertChanges();
+                    FileListeners.RemoveListeners();
+                    HistoryHandler.RevertChanges();
                     MessageBox.Show("An error has occured, please try again or contact the developer for support.");
-                    enableMigrationCombos();
+                    EnableMigrationCombos();
 
                     return;
                 }
 
-                startSpecialAddonListeners();
+                StartSpecialAddonListeners();
 
-                FilesHandler.createFakeFsxExecutable(getSelectedTargetSimulator().getSimPath());
+                FilesHandler.CreateFakeFsxExecutable(GetSelectedTargetSimulator().GetSimPath());
 
                 startMigrateButton.Text = STOP_MIGRATION_TEXT;
-                SettingsHandler.setSetting("started", "1");
+                SettingsHandler.SetSetting("started", "1");
             }
         }
 
         /**
          * Sets whether should the app ignore the source migration combo change event.
          */
-        public static void setIgnoreSourceMigrationChange(bool setIgnore)
+        public static void SetIgnoreSourceMigrationChange(bool setIgnore)
         {
             ignoreSourceMigrationChange = setIgnore;
         }
@@ -134,7 +134,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Sets whether should the app ignore the target migration combo change event.
          */
-        public static void setIgnoreTargetMigrationChange(bool setIgnore)
+        public static void SetIgnoreTargetMigrationChange(bool setIgnore)
         {
             ignoreTargetMigrationChange = setIgnore;
         }
@@ -142,7 +142,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Returns the selected source SimulatorOption.
          */
-        public static SimulatorOption getSelectedSourceSimulator()
+        public static SimulatorOption GetSelectedSourceSimulator()
         {
             return selectedSourceSimulator;
         }
@@ -150,7 +150,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Returns the selected target SimulatorOption.
          */
-        public static SimulatorOption getSelectedTargetSimulator()
+        public static SimulatorOption GetSelectedTargetSimulator()
         {
             return selectedTargetSimulator;
         }
@@ -158,49 +158,49 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the source migration change event.
          */
-        public static void sourceMigrationChangeHandler()
+        public static void SourceMigrationChangeHandler()
         {
             SimulatorOption simOption;
 
             if (!ignoreSourceMigrationChange)
             {
-                MigrationComboFunctions.fillSourceMigrationComboOptions();
+                MigrationComboFunctions.FillSourceMigrationComboOptions();
 
-                simOption = SimulatorOptions.getOptionBySelectedItem(MainForm.getMigrateSourceCombo());
-                SettingsHandler.setSetting("migrationSource", simOption.getValue().ToString());
+                simOption = SimulatorOptions.GetOptionBySelectedItem(MainForm.GetMigrateSourceCombo());
+                SettingsHandler.SetSetting("migrationSource", simOption.GetValue().ToString());
             }
 
-            simOption = SimulatorOptions.getOptionBySelectedItem(MainForm.getMigrateSourceCombo());
+            simOption = SimulatorOptions.GetOptionBySelectedItem(MainForm.GetMigrateSourceCombo());
             selectedSourceSimulator = simOption;
         }
 
         /**
          * Handles the target migration change event.
          */
-        public static void targetMigrationChangeHandler()
+        public static void TargetMigrationChangeHandler()
         {
             SimulatorOption simOption;
 
             if (!ignoreTargetMigrationChange)
             {
-                MigrationComboFunctions.fillTargetMigrationComboOptions();
+                MigrationComboFunctions.FillTargetMigrationComboOptions();
 
-                simOption = SimulatorOptions.getOptionBySelectedItem(MainForm.getMigrateTargetCombo());
-                SettingsHandler.setSetting("migrationTarget", simOption.getValue().ToString());
+                simOption = SimulatorOptions.GetOptionBySelectedItem(MainForm.GetMigrateTargetCombo());
+                SettingsHandler.SetSetting("migrationTarget", simOption.GetValue().ToString());
             }
 
-            simOption = SimulatorOptions.getOptionBySelectedItem(MainForm.getMigrateTargetCombo());
+            simOption = SimulatorOptions.GetOptionBySelectedItem(MainForm.GetMigrateTargetCombo());
             selectedTargetSimulator = simOption;
         }
 
         /**
          * Initializes the default program settings.
          */
-        protected static void initializeDefaultSettings()
+        protected static void InitializeDefaultSettings()
         {
-            string windowsStartup = SettingsHandler.getSetting("windowsStartup");
-            string autoStart = SettingsHandler.getSetting("autoStart");
-            string ultimateTraffic2 = SettingsHandler.getSetting("ultimateTraffic2");
+            string windowsStartup = SettingsHandler.GetSetting("windowsStartup");
+            string autoStart = SettingsHandler.GetSetting("autoStart");
+            string ultimateTraffic2 = SettingsHandler.GetSetting("ultimateTraffic2");
 
             if (windowsStartup.Equals(""))
             {
@@ -209,19 +209,19 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
 
             if (autoStart.Equals(""))
             {
-                SettingsHandler.setSetting("autoStart", "0");
+                SettingsHandler.SetSetting("autoStart", "0");
             }
 
             if (ultimateTraffic2.Equals(""))
             {
-                SettingsHandler.setSetting("ultimateTraffic2", "1");
+                SettingsHandler.SetSetting("ultimateTraffic2", "1");
             }
         }
 
         /**
          * Closes the program if it's already running to avoid problems.
          */
-        protected static void closeIfAlreadyRunning()
+        protected static void CloseIfAlreadyRunning()
         {
             string processName = Path.GetFileName(System.Reflection.Assembly.GetEntryAssembly().Location);
             processName = processName.Replace(".exe", "");
@@ -237,15 +237,15 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the exit buttons operations.
          */
-        public static void exitHandler()
+        public static void ExitHandler()
         {
-            string autoStart = SettingsHandler.getSetting("autoStart");
+            string autoStart = SettingsHandler.GetSetting("autoStart");
 
             if (!autoStart.Equals("1"))
             {
-                HistoryHandler.revertChanges();
-                stopSpecialAddonListeners();
-                SettingsHandler.setSetting("started", "0");
+                HistoryHandler.RevertChanges();
+                StopSpecialAddonListeners();
+                SettingsHandler.SetSetting("started", "0");
             }
 
             Application.Exit();
@@ -254,38 +254,38 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Disables the migration combos in the MainForm.
          */
-        public static void disableMigrationCombos()
+        public static void DisableMigrationCombos()
         {
-            MainForm.getMigrateSourceCombo().Enabled = false;
-            MainForm.getMigrateTargetCombo().Enabled = false;
+            MainForm.GetMigrateSourceCombo().Enabled = false;
+            MainForm.GetMigrateTargetCombo().Enabled = false;
         }
 
         /**
          * Enables the migration combos in the MainForm.
          */
-        public static void enableMigrationCombos()
+        public static void EnableMigrationCombos()
         {
-            MainForm.getMigrateSourceCombo().Enabled = true;
-            MainForm.getMigrateTargetCombo().Enabled = true;
+            MainForm.GetMigrateSourceCombo().Enabled = true;
+            MainForm.GetMigrateTargetCombo().Enabled = true;
         }
 
         /**
          * Starts the special addons listeners.
          */
-        protected static void startSpecialAddonListeners()
+        protected static void StartSpecialAddonListeners()
         {
             ultimateTraffic2 = new UltimateTraffic2();
-            ultimateTraffic2.start();
+            ultimateTraffic2.Start();
         }
 
         /**
          * Stops the special addons listeners.
          */
-        protected static void stopSpecialAddonListeners()
+        protected static void StopSpecialAddonListeners()
         {
             if (ultimateTraffic2 != null)
             {
-                ultimateTraffic2.stop();
+                ultimateTraffic2.Stop();
                 ultimateTraffic2 = null;
             }
         }

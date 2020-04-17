@@ -12,17 +12,6 @@ namespace Elad_s_Migration_Tool.General
         protected string programDataPath;
         protected string simConfigFile;
 
-        public SimulatorOption(string text)
-        {
-            this.text = text;
-        }
-
-        public SimulatorOption(string text, int value)
-        {
-            this.text = text;
-            this.value = value;
-        }
-
         public SimulatorOption(string text, int value, string[] registryPaths)
         {
             this.text = text;
@@ -33,7 +22,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the simulator text.
          */
-        public string getText()
+        public string GetText()
         {
             return this.text;
         }
@@ -41,7 +30,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the simulator's value.
          */
-        public int getValue()
+        public int GetValue()
         {
             return this.value;
         }
@@ -49,7 +38,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the registry paths of the simulator.
          */
-        public string[] getRegistryPaths()
+        public string[] GetRegistryPaths()
         {
             return this.registryPaths;
         }
@@ -57,7 +46,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the simulator path.
          */
-        public string getSimPath()
+        public string GetSimPath()
         {
             return this.simPath;
         }
@@ -65,7 +54,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the application data path of the simulator.
          */
-        public string getAppDataPath()
+        public string GetAppDataPath()
         {
             return this.appDataPath;
         }
@@ -73,15 +62,15 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the full application data path if the getFullPath parameter is set to true.
          */
-        public string getAppDataPath(bool getFullPath)
+        public string GetAppDataPath(bool getFullPath)
         {
-            return (getFullPath ? FilesHandler.getApplicationDataPath() + "\\" : "") + this.appDataPath;
+            return (getFullPath ? FilesHandler.GetApplicationDataPath() + "\\" : "") + this.appDataPath;
         }
 
         /**
          * Returns the program data path of the simulator.
          */
-        public string getProgramDataPath()
+        public string GetProgramDataPath()
         {
             return this.programDataPath;
         }
@@ -89,47 +78,23 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the full program data path if the getFullPath parameter is set to true.
          */
-        public string getProgramDataPath(bool getFullPath)
+        public string GetProgramDataPath(bool getFullPath)
         {
-            return (getFullPath ? FilesHandler.getProgramDataPath() + "\\" : "") + this.programDataPath;
+            return (getFullPath ? FilesHandler.GetProgramDataPath() + "\\" : "") + this.programDataPath;
         }
 
         /**
          * Returns the sim config file name.
          */
-        public string getSimConfigFile()
+        public string GetSimConfigFile()
         {
             return this.simConfigFile;
         }
 
         /**
-         * Sets the simulator's text.
-         */
-        public void setText(string text)
-        {
-            this.text = text;
-        }
-
-        /**
-         * Sets the simulator's value.
-         */
-        public void setValue(int value)
-        {
-            this.value = value;
-        }
-
-        /**
-         * Sets the simulator's registry paths.
-         */
-        public void setRegistryPaths(string[] registryPaths)
-        {
-            this.registryPaths = registryPaths;
-        }
-
-        /**
          * Sets the simulator's path.
          */
-        public void setSimPath(string simPath)
+        public void SetSimPath(string simPath)
         {
             this.simPath = simPath;
         }
@@ -137,7 +102,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Sets the simulator's app data path.
          */
-        public void setAppDataPath(string appDataPath)
+        public void SetAppDataPath(string appDataPath)
         {
             this.appDataPath = appDataPath;
         }
@@ -145,7 +110,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Sets the simulator's program data path.
          */
-        public void setProgramDataPath(string programDataPath)
+        public void SetProgramDataPath(string programDataPath)
         {
             this.programDataPath = programDataPath;
         }
@@ -153,7 +118,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Sets the file name of the simulator's config file.
          */
-        public void setSimConfigFile(string simConfigFile)
+        public void SetSimConfigFile(string simConfigFile)
         {
             this.simConfigFile = simConfigFile;
         }
@@ -163,7 +128,7 @@ namespace Elad_s_Migration_Tool.General
          */
         public override string ToString()
         {
-            return this.getText();
+            return this.GetText();
         }
 
         /**
@@ -171,7 +136,7 @@ namespace Elad_s_Migration_Tool.General
          */
         public bool Equals(SimulatorOption parallelSimOption)
         {
-            return parallelSimOption.getText().Equals(this.getText()) && parallelSimOption.getValue().Equals(this.getValue());
+            return parallelSimOption.GetText().Equals(this.GetText()) && parallelSimOption.GetValue().Equals(this.GetValue());
         }
     }
 }

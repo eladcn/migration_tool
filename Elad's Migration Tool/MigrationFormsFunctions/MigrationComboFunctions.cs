@@ -7,8 +7,8 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
 {
     class MigrationComboFunctions
     {
-        protected static List<SimulatorOption> allSimulatorOptions = SimulatorOptions.getAllSimulatorOptions();
-        protected static List<SimulatorOption> simOptionsInPC = SimulatorOptions.getSimOptionsInPC();
+        protected static List<SimulatorOption> allSimulatorOptions = SimulatorOptions.GetAllSimulatorOptions();
+        protected static List<SimulatorOption> simOptionsInPC = SimulatorOptions.GetSimOptionsInPC();
 
         protected static int[] defaultIgnoreFromMigrationItems = { 6 };
         protected static int[] defaultIgnoreToMigrationItems = { 1, 2 };
@@ -19,7 +19,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Fills a specific combo box with the migration options.
          */
-        protected static void fillMigrationComboOptions(ComboBox combo, int[] ignoreID, bool onlyInPC)
+        protected static void FillMigrationComboOptions(ComboBox combo, int[] ignoreID, bool onlyInPC)
         {
             combo.Items.Clear();
 
@@ -32,7 +32,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                     continue;
                 }
 
-                if (ignoreID.Contains(optionObject.getValue()))
+                if (ignoreID.Contains(optionObject.GetValue()))
                 {
                     continue;
                 }
@@ -46,22 +46,22 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
             }
 
             //Making sure the migration change event does not fire, or else an endless recursion will occur
-            MainFormHandler.setIgnoreSourceMigrationChange(true);
-            MainFormHandler.setIgnoreTargetMigrationChange(true);
+            MainFormHandler.SetIgnoreSourceMigrationChange(true);
+            MainFormHandler.SetIgnoreTargetMigrationChange(true);
 
             if (combo.Items.Count > 0)
             {
                 combo.SelectedIndex = 0;
             }
 
-            MainFormHandler.setIgnoreSourceMigrationChange(false);
-            MainFormHandler.setIgnoreTargetMigrationChange(false);
+            MainFormHandler.SetIgnoreSourceMigrationChange(false);
+            MainFormHandler.SetIgnoreTargetMigrationChange(false);
         }
 
         /**
          * Returns the selected SimulatorOption.
          */
-        public static SimulatorOption getSelectedItem(ComboBox combo)
+        public static SimulatorOption GetSelectedItem(ComboBox combo)
         {
             int selectedIndex = combo.SelectedIndex;
             int counter = 0;
@@ -85,25 +85,9 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         }
 
         /**
-         * Returns the migrateFromCombo's selected item.
-         */
-        public static SimulatorOption getMigrateSourceSelectedOption()
-        {
-            return getSelectedItem(MainForm.getMigrateSourceCombo());
-        }
-
-        /**
-         * Returns the migrateToCombo's selected item.
-         */
-        public static SimulatorOption getMigrateTargetSelectedOption()
-        {
-            return getSelectedItem(MainForm.getMigrateTargetCombo());
-        }
-
-        /**
          * Returns the value of the selected item in a combo box.
          */
-        protected static int getSelectedItemValue(ComboBox combo)
+        protected static int GetSelectedItemValue(ComboBox combo)
         {
             int counter = 0;
             int selectedIndex = combo.SelectedIndex;
@@ -112,7 +96,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
             {
                 if (counter == selectedIndex)
                 {
-                    return simOption.getValue();
+                    return simOption.GetValue();
                 }
 
                 counter++;
@@ -124,16 +108,16 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Selects a specific item in the combo box if exists according to its value.
          */
-        protected static void selectItemByVal(ComboBox combo, int val)
+        protected static void SelectItemByVal(ComboBox combo, int val)
         {
-            MainFormHandler.setIgnoreSourceMigrationChange(true);
-            MainFormHandler.setIgnoreTargetMigrationChange(true);
+            MainFormHandler.SetIgnoreSourceMigrationChange(true);
+            MainFormHandler.SetIgnoreTargetMigrationChange(true);
             
             int counter = 0;
 
             foreach (SimulatorOption simOption in combo.Items)
             {
-                if (simOption.getValue() == val)
+                if (simOption.GetValue() == val)
                 {
                     combo.SelectedIndex = counter;
 
@@ -143,36 +127,36 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 counter++;
             }
 
-            MainFormHandler.setIgnoreSourceMigrationChange(false);
-            MainFormHandler.setIgnoreTargetMigrationChange(false);
+            MainFormHandler.SetIgnoreSourceMigrationChange(false);
+            MainFormHandler.SetIgnoreTargetMigrationChange(false);
         }
 
         /**
          * Fills the fromMigrationCombo ComboBox data.
          */
-        public static void fillSourceMigrationComboOptions()
+        public static void FillSourceMigrationComboOptions()
         {
-            ComboBox migrateSourceCombo = MainForm.getMigrateSourceCombo();
-            ComboBox migrateTargetCombo = MainForm.getMigrateTargetCombo();
+            ComboBox migrateSourceCombo = MainForm.GetMigrateSourceCombo();
+            ComboBox migrateTargetCombo = MainForm.GetMigrateTargetCombo();
 
             if (migrateSourceCombo.Items.Count <= 0)
             {
-                fillMigrationComboOptions(migrateSourceCombo, defaultIgnoreFromMigrationItems, false);
+                FillMigrationComboOptions(migrateSourceCombo, defaultIgnoreFromMigrationItems, false);
                 return;
             }
 
             int ignoreID = 0;
-            int currentMigrateToSelectedValue = getSelectedItemValue(migrateTargetCombo);
+            int currentMigrateToSelectedValue = GetSelectedItemValue(migrateTargetCombo);
 
             if (migrateSourceCombo.SelectedIndex >= 0)
             {
-                SimulatorOption selectedItem = getSelectedItem(migrateSourceCombo);
+                SimulatorOption selectedItem = GetSelectedItem(migrateSourceCombo);
 
                 foreach (SimulatorOption migrateToComboItem in migrateTargetCombo.Items)
                 {
                     if (selectedItem.Equals(migrateToComboItem))
                     {
-                        ignoreID = selectedItem.getValue();
+                        ignoreID = selectedItem.GetValue();
                         break;
                     }
                 }
@@ -185,27 +169,27 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 defaultIgnoreToMigrationItems.CopyTo(ignoreIDs, 0);
                 ignoreIDs[defaultLength] = ignoreID;
 
-                fillMigrationComboOptions(migrateTargetCombo, ignoreIDs, true);
+                FillMigrationComboOptions(migrateTargetCombo, ignoreIDs, true);
             }
             else
             {
-                fillMigrationComboOptions(migrateTargetCombo, defaultIgnoreToMigrationItems, true);
+                FillMigrationComboOptions(migrateTargetCombo, defaultIgnoreToMigrationItems, true);
             }
 
-            selectItemByVal(migrateTargetCombo, currentMigrateToSelectedValue);
+            SelectItemByVal(migrateTargetCombo, currentMigrateToSelectedValue);
         }
 
         /**
          * Fills the toMigrationCombo ComboBox data.
          */
-        public static void fillTargetMigrationComboOptions()
+        public static void FillTargetMigrationComboOptions()
         {
-            ComboBox migrateSourceCombo = MainForm.getMigrateSourceCombo();
-            ComboBox migrateTargetCombo = MainForm.getMigrateTargetCombo();
+            ComboBox migrateSourceCombo = MainForm.GetMigrateSourceCombo();
+            ComboBox migrateTargetCombo = MainForm.GetMigrateTargetCombo();
 
             if (migrateTargetCombo.Items.Count <= 0)
             {
-                fillMigrationComboOptions(migrateTargetCombo, defaultIgnoreToMigrationItems, true);
+                FillMigrationComboOptions(migrateTargetCombo, defaultIgnoreToMigrationItems, true);
 
                 //Making sure we have at least 1 simulator to migrate to, else we exit the program.
                 if (migrateTargetCombo.Items.Count == 0)
@@ -218,17 +202,17 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
             }
 
             int ignoreID = 0;
-            int currentMigrateFromSelectedValue = getSelectedItemValue(migrateSourceCombo);
+            int currentMigrateFromSelectedValue = GetSelectedItemValue(migrateSourceCombo);
 
             if (migrateTargetCombo.SelectedIndex >= 0)
             {
-                SimulatorOption selectedItem = getSelectedItem(migrateTargetCombo);
+                SimulatorOption selectedItem = GetSelectedItem(migrateTargetCombo);
 
                 foreach (SimulatorOption migrateFromComboItem in migrateSourceCombo.Items)
                 {
                     if (selectedItem.Equals(migrateFromComboItem))
                     {
-                        ignoreID = selectedItem.getValue();
+                        ignoreID = selectedItem.GetValue();
                     }
                 }
             }
@@ -241,20 +225,20 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 defaultIgnoreFromMigrationItems.CopyTo(ignoreIDs, 0);
                 ignoreIDs[defaultLength] = ignoreID;
 
-                fillMigrationComboOptions(migrateSourceCombo, ignoreIDs, false);
+                FillMigrationComboOptions(migrateSourceCombo, ignoreIDs, false);
             }
             else
             {
-                fillMigrationComboOptions(migrateSourceCombo, defaultIgnoreFromMigrationItems, false);
+                FillMigrationComboOptions(migrateSourceCombo, defaultIgnoreFromMigrationItems, false);
             }
 
-            if (SettingsHandler.getSetting("migrationTarget").Equals("") && migrateTargetCombo.SelectedIndex >= 0 && !defaultTargetChosen)
+            if (SettingsHandler.GetSetting("migrationTarget").Equals("") && migrateTargetCombo.SelectedIndex >= 0 && !defaultTargetChosen)
             {
-                selectItemByVal(migrateTargetCombo, defaultMigrateTo);
+                SelectItemByVal(migrateTargetCombo, defaultMigrateTo);
                 defaultTargetChosen = true;
             }
 
-            selectItemByVal(migrateSourceCombo, currentMigrateFromSelectedValue);
+            SelectItemByVal(migrateSourceCombo, currentMigrateFromSelectedValue);
         }
     }
 }

@@ -15,13 +15,13 @@ namespace Elad_s_Migration_Tool.General
         {
             instance = this;
 
-            initializeOptions();
+            InitializeOptions();
         }
 
         /**
          * Returns all available SimuatorOptions.
          */
-        public static List<SimulatorOption> getAllSimulatorOptions()
+        public static List<SimulatorOption> GetAllSimulatorOptions()
         {
             if (instance == null)
             {
@@ -34,7 +34,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns the available simulator options in the current PC.
          */
-        public static List<SimulatorOption> getSimOptionsInPC()
+        public static List<SimulatorOption> GetSimOptionsInPC()
         {
             if (instance == null)
             {
@@ -48,9 +48,9 @@ namespace Elad_s_Migration_Tool.General
 
             instance.simOptionsInPC = new List<SimulatorOption>();
 
-            foreach (SimulatorOption simOption in getAllSimulatorOptions())
+            foreach (SimulatorOption simOption in GetAllSimulatorOptions())
             {
-                if (simOption.getSimPath() != null && !simOption.getSimPath().Equals(""))
+                if (simOption.GetSimPath() != null && !simOption.GetSimPath().Equals(""))
                 {
                     instance.simOptionsInPC.Add(simOption);
                 }
@@ -62,7 +62,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Returns an option by searching for its value.
          */
-        public static SimulatorOption getOptionByVal(int val)
+        public static SimulatorOption GetOptionByVal(int val)
         {
             if (instance == null)
             {
@@ -71,7 +71,7 @@ namespace Elad_s_Migration_Tool.General
 
             foreach (SimulatorOption option in instance.simOptions)
             {
-                if (option.getValue() == val)
+                if (option.GetValue() == val)
                 {
                     return option;
                 }
@@ -83,13 +83,13 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Sets the selected option in the combo box according to the value.
          */
-        public static bool setSelectedOptionByVal(ComboBox combo, int val)
+        public static bool SetSelectedOptionByVal(ComboBox combo, int val)
         {
             int counter = 0;
 
             foreach (SimulatorOption simOption in combo.Items)
             {
-                if (simOption.getValue() == val)
+                if (simOption.GetValue() == val)
                 {
                     combo.SelectedIndex = counter;
 
@@ -106,7 +106,7 @@ namespace Elad_s_Migration_Tool.General
          * Returns the selected SimulatorOption in a specific combo.
          * If possible, use MainFormHandler's getSelectedSourceSimulator() and getSelectedTargetSimulator() instead.
          */
-        public static SimulatorOption getOptionBySelectedItem(ComboBox combo)
+        public static SimulatorOption GetOptionBySelectedItem(ComboBox combo)
         {
             int selectedIndex = combo.SelectedIndex;
             int counter = 0;
@@ -130,35 +130,35 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Initializes the options.
          */
-        protected void initializeOptions()
+        protected void InitializeOptions()
         {
-            initializeFSX();
-            initializeFSXSE();
-            initializePrepar3Dv1();
-            initializePrepar3Dv2();
-            initializePrepar3Dv3();
-            initializePrepar3Dv4();
+            InitializeFSX();
+            InitializeFSXSE();
+            InitializePrepar3Dv1();
+            InitializePrepar3Dv2();
+            InitializePrepar3Dv3();
+            InitializePrepar3Dv4();
         }
 
         /**
          * Initializes the sim path in a specific SimuatorOption. 
          */
-        protected bool initializeComboSimPath(SimulatorOption simulatorOption)
+        protected bool InitializeComboSimPath(SimulatorOption simulatorOption)
         {
             if (simulatorOption == null)
             {
                 return false;
             }
 
-            string[] registryPaths = simulatorOption.getRegistryPaths();
+            string[] registryPaths = simulatorOption.GetRegistryPaths();
 
             foreach (string registryPath in registryPaths)
             {
-                string simPath = RegistryInterface.getRegistryValue(registryPath);
+                string simPath = RegistryInterface.GetRegistryValue(registryPath);
 
                 if (!simPath.Equals("") && !simPath.Equals("1") && !simPath.Equals("0"))
                 {
-                    simulatorOption.setSimPath(simPath);
+                    simulatorOption.SetSimPath(simPath);
 
                     return true;
                 }
@@ -167,10 +167,22 @@ namespace Elad_s_Migration_Tool.General
             return false;
         }
 
+        protected void InitializeSim(string[] registryPaths, string appDataPath, string programDataPath, string text, int value, string configFile)
+        {
+            SimulatorOption option = new SimulatorOption(text, value, registryPaths);
+
+            option.SetAppDataPath(appDataPath);
+            option.SetProgramDataPath(programDataPath);
+            InitializeComboSimPath(option);
+            option.SetSimConfigFile(configFile);
+
+            instance.simOptions.Add(option);
+        }
+
         /**
          * Initializes the FSX combo item with the corresponding registry keys.
          */
-        protected void initializeFSX()
+        protected void InitializeFSX()
         {
             string[] registryPaths = {
                 "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft Games\\Flight Simulator\\10.0\\SetupPath",
@@ -180,22 +192,13 @@ namespace Elad_s_Migration_Tool.General
                 "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Microsoft Games\\Flight Simulator\\10.0\\AppPath"
             };
 
-            string appDataPath = "Microsoft\\FSX";
-            string programDataPath = "Microsoft\\FSX";
-
-            SimulatorOption option = new SimulatorOption("FSX", 1, registryPaths);
-            option.setAppDataPath(appDataPath);
-            option.setProgramDataPath(programDataPath);
-            initializeComboSimPath(option);
-            option.setSimConfigFile("fsx.cfg");
-
-            instance.simOptions.Add(option);
+            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX", 1, "fsx.cfg");
         }
 
         /**
          * Initializes the FSX Steam Edition combo item with the corresponding registry keys.
          */
-        protected void initializeFSXSE()
+        protected void InitializeFSXSE()
         {
             string[] registryPaths = {
                 "HKEY_LOCAL_MACHINE\\SOFTWARE\\Dovetail Games\\FSX\\10.0\\Install_Path",
@@ -208,16 +211,7 @@ namespace Elad_s_Migration_Tool.General
                 "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Microsoft Games\\Flight Simulator\\10.0\\SetupPath"
             };
 
-            string appDataPath = "Microsoft\\FSX";
-            string programDataPath = "Microsoft\\FSX";
-
-            SimulatorOption option = new SimulatorOption("FSX Steam Edition", 2, registryPaths);
-            option.setAppDataPath(appDataPath);
-            option.setProgramDataPath(programDataPath);
-            initializeComboSimPath(option);
-            option.setSimConfigFile("fsx.cfg");
-
-            instance.simOptions.Add(option);
+            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX Steam Edition", 2, "fsx.cfg");
         }
 
         protected void initializePrepar3D(string name, int value)
@@ -237,19 +231,13 @@ namespace Elad_s_Migration_Tool.General
             string appDataPath = "Lockheed Martin\\" + name;
             string programDataPath = "Lockheed Martin\\" + name;
 
-            SimulatorOption option = new SimulatorOption(name, value, registryPaths);
-            option.setAppDataPath(appDataPath);
-            option.setProgramDataPath(programDataPath);
-            initializeComboSimPath(option);
-            option.setSimConfigFile("prepar3d.cfg");
-
-            instance.simOptions.Add(option);
+            InitializeSim(registryPaths, appDataPath, programDataPath, name, value, "prepar3d.cfg");
         }
 
         /**
          * Initializes the Prepar3D v1 combo item with the corresponding registry keys.
          */
-        protected void initializePrepar3Dv1()
+        protected void InitializePrepar3Dv1()
         {
             initializePrepar3D("Prepar3D", 3);
         }
@@ -257,7 +245,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Initializes the Prepar3D v2 combo item with the corresponding registry keys.
          */
-        protected void initializePrepar3Dv2()
+        protected void InitializePrepar3Dv2()
         {
             initializePrepar3D("Prepar3D v2", 4);
         }
@@ -265,7 +253,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Initializes the Prepar3D v3 combo item with the corresponding registry keys.
          */
-        protected void initializePrepar3Dv3()
+        protected void InitializePrepar3Dv3()
         {
             initializePrepar3D("Prepar3D v3", 5);
         }
@@ -273,7 +261,7 @@ namespace Elad_s_Migration_Tool.General
         /**
          * Initializes the Prepar3D v3 combo item with the corresponding registry keys.
          */
-        protected void initializePrepar3Dv4()
+        protected void InitializePrepar3Dv4()
         {
             initializePrepar3D("Prepar3D v4", 6);
         }

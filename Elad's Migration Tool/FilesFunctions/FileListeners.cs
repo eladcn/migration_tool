@@ -11,7 +11,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
     {
         private static FileListeners instance;
 
-        private static string[] configFiles = FilesHandler.getConfigFiles();
+        private static string[] configFiles = FilesHandler.GetConfigFiles();
         private static List<System.Timers.Timer> timers = new List<System.Timers.Timer>();
         private const double TIMER_OFFSET = 9; //defines how often should changes in the files be checked in seconds
         private const double TIMER_INTERVAL = 5; //defines how often the timer will run in seconds
@@ -27,7 +27,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Returns whether a file should be copied or not.
          */
-        private bool shouldCopyFile(string filePath)
+        private bool ShouldCopyFile(string filePath)
         {
             DateTime currentTime = DateTime.Now;
 
@@ -41,10 +41,10 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * The actual listener's functionality.
          */
-        private void fileListener(string configFile, System.Timers.Timer currentTimer)
+        private void FileListener(string configFile, System.Timers.Timer currentTimer)
         {
-            SimulatorOption sourceOption = MainFormHandler.getSelectedSourceSimulator();
-            SimulatorOption targetOption = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption sourceOption = MainFormHandler.GetSelectedSourceSimulator();
+            SimulatorOption targetOption = MainFormHandler.GetSelectedTargetSimulator();
 
             //Should never happen but just in case...
             if (sourceOption == null || targetOption == null)
@@ -58,15 +58,15 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             string targetConfigFile = configFile;
 
             //Handling Prepare3D.CFG and FSX.CFG.
-            if (configFile.Equals(sourceOption.getSimConfigFile()))
+            if (configFile.Equals(sourceOption.GetSimConfigFile()))
             {
-                targetConfigFile = targetOption.getSimConfigFile();
+                targetConfigFile = targetOption.GetSimConfigFile();
             }
 
-            string sourceAppDataPath = sourceOption.getAppDataPath(true) + "\\" + configFile;
-            string sourceProgramDataPath = sourceOption.getProgramDataPath(true) + "\\" + configFile;
-            string targetAppDataPath = targetOption.getAppDataPath(true) + "\\" + targetConfigFile;
-            string targetProgramDataPath = targetOption.getProgramDataPath(true) + "\\" + targetConfigFile;
+            string sourceAppDataPath = sourceOption.GetAppDataPath(true) + "\\" + configFile;
+            string sourceProgramDataPath = sourceOption.GetProgramDataPath(true) + "\\" + configFile;
+            string targetAppDataPath = targetOption.GetAppDataPath(true) + "\\" + targetConfigFile;
+            string targetProgramDataPath = targetOption.GetProgramDataPath(true) + "\\" + targetConfigFile;
 
             bool sourceAppDataExists = File.Exists(sourceAppDataPath);
             bool sourceProgramDataExists = File.Exists(sourceProgramDataPath);
@@ -94,14 +94,14 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             {
                 try
                 {
-                    if (shouldCopyFile(targetAppDataPath))
+                    if (ShouldCopyFile(targetAppDataPath))
                     {
                         File.Copy(targetAppDataPath, sourceAppDataPath, true);
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function fileListener() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function fileListener() - " + e.ToString());
                 }
             }
 
@@ -109,14 +109,14 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             {
                 try
                 {
-                    if (shouldCopyFile(targetProgramDataPath))
+                    if (ShouldCopyFile(targetProgramDataPath))
                     {
                         File.Copy(targetProgramDataPath, sourceProgramDataPath, true);
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function fileListener() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function fileListener() - " + e.ToString());
                 }
             }
 
@@ -124,14 +124,14 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             {
                 try
                 {
-                    if (shouldCopyFile(sourceAppDataPath))
+                    if (ShouldCopyFile(sourceAppDataPath))
                     {
                         File.Copy(sourceAppDataPath, targetAppDataPath, true);
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function fileListener() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function fileListener() - " + e.ToString());
                 }
             }
 
@@ -139,14 +139,14 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             {
                 try
                 {
-                    if (shouldCopyFile(sourceProgramDataPath))
+                    if (ShouldCopyFile(sourceProgramDataPath))
                     {
                         File.Copy(sourceProgramDataPath, targetProgramDataPath, true);
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function fileListener() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function fileListener() - " + e.ToString());
                 }
             }
         }
@@ -154,10 +154,10 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Creates a listener for a specific file.
          */
-        public void createFileListener(string configFile)
+        public void CreateFileListener(string configFile)
         {
             System.Timers.Timer timer = new System.Timers.Timer(1000 * TIMER_INTERVAL);
-            timer.Elapsed += delegate { fileListener(configFile, timer); };
+            timer.Elapsed += delegate { FileListener(configFile, timer); };
             timer.Enabled = true;
             timer.Start();
             timers.Add(timer);
@@ -166,7 +166,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Initializes the listeners in a static way.
          */
-        public static bool initStaticListeners()
+        public static bool InitStaticListeners()
         {
             //Singleton
             if (instance == null)
@@ -174,28 +174,28 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 new FileListeners();
             }
 
-            return instance.initListeners();
+            return instance.InitListeners();
         }
 
         /**
          * Adds listeners to the config files.
          */
-        public bool initListeners()
+        public bool InitListeners()
         {
-            if (!FilesHandler.copyTargetSimFilesToSource())
+            if (!FilesHandler.CopyTargetSimFilesToSource())
             {
-                ErrorLogger.logError("Could not initialize the listeners - function copyTargetSimFilesToSource() failed.");
+                ErrorLogger.LogError("Could not initialize the listeners - function copyTargetSimFilesToSource() failed.");
                 return false;
             }
 
             foreach (string configFile in configFiles)
             {
-                createFileListener(configFile);
+                CreateFileListener(configFile);
             }
 
             if (timers.Count <= 0)
             {
-                ErrorLogger.logError("Could not initialize the listeners - the files were not found and therefore the timers count is 0.");
+                ErrorLogger.LogError("Could not initialize the listeners - the files were not found and therefore the timers count is 0.");
                 return false;
             }
 
@@ -205,7 +205,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Removes all config files listeners.
          */
-        public static void removeListeners()
+        public static void RemoveListeners()
         {
             if (timers.Count <= 0)
             {

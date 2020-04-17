@@ -13,7 +13,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Returns a copy of the config files array (so it cannot be dynamically changed).
          */
-        public static string[] getConfigFiles()
+        public static string[] GetConfigFiles()
         {
             string[] copyConfigFiles = new string[configFiles.Length];
             configFiles.CopyTo(copyConfigFiles, 0);
@@ -24,7 +24,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Returns whether the Prepar3D folder that we found in the registry exists.
          */
-        public static bool simulatorPathExists(string simPath)
+        public static bool SimulatorPathExists(string simPath)
         {
             return Directory.Exists(simPath);
         }
@@ -32,9 +32,9 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Duplicates the Prepar3D.exe file and renames it to FSX.exe - some add ons are looking for the FSX.exe file inside the main folder.
          */
-        public static bool createFakeFsxExecutable(string newSimPath)
+        public static bool CreateFakeFsxExecutable(string newSimPath)
         {
-            if (newSimPath.Equals("") || !simulatorPathExists(newSimPath))
+            if (newSimPath.Equals("") || !SimulatorPathExists(newSimPath))
             {
                 return false;
             }
@@ -44,7 +44,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 if (File.Exists(newSimPath + "\\Prepar3D.exe"))
                 {
                     File.Copy(newSimPath + "\\Prepar3D.exe", newSimPath + "\\fsx.exe", true);
-                    HistoryHandler.appendHistory("2," + newSimPath);
+                    HistoryHandler.AppendHistory("2," + newSimPath);
 
                     return true;
                 }
@@ -53,7 +53,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             }
             catch (Exception e)
             {
-                ErrorLogger.logError("Could not create fake fsx file, function createFakeFsxExecutable() - " + e.ToString());
+                ErrorLogger.LogError("Could not create fake fsx file, function createFakeFsxExecutable() - " + e.ToString());
                 return false;
             }
         }
@@ -61,9 +61,9 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Delete the fake FSX executable we created.
          */
-        public static bool deleteFakeFsxExecutable(string newSimPath)
+        public static bool DeleteFakeFsxExecutable(string newSimPath)
         {
-            if (newSimPath.Equals("") || !simulatorPathExists(newSimPath))
+            if (newSimPath.Equals("") || !SimulatorPathExists(newSimPath))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             }
             catch (Exception e)
             {
-                ErrorLogger.logError("Could not delete fake fsx file, function deleteFakeFsxExecutable() - " + e.ToString());
+                ErrorLogger.LogError("Could not delete fake fsx file, function deleteFakeFsxExecutable() - " + e.ToString());
                 return false;
             }
         }
@@ -84,7 +84,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Returns the OS ProgramData folder's path.
          */
-        public static string getProgramDataPath()
+        public static string GetProgramDataPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).ToString();
         }
@@ -92,7 +92,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Return the OS ApplicationData folder's path.
          */
-        public static string getApplicationDataPath()
+        public static string GetApplicationDataPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).ToString();
         }
@@ -100,7 +100,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Creates a backup of the config files.
          */
-        protected static bool createConfigFilesBackup(string programDataFolder, string appDataFolder, bool isTargetSim)
+        protected static bool CreateConfigFilesBackup(string programDataFolder, string appDataFolder, bool isTargetSim)
         {
             DateTime currentTime = DateTime.Now;
             string backupTime = "\\" + currentTime.ToString("yyyy_MM_dd_HH_mm_ss");
@@ -109,8 +109,8 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 backupTime = "";
             }
 
-            string programDataPath = getProgramDataPath() + "\\" + programDataFolder;
-            string applicationDataPath = getApplicationDataPath() + "\\" + appDataFolder;
+            string programDataPath = GetProgramDataPath() + "\\" + programDataFolder;
+            string applicationDataPath = GetApplicationDataPath() + "\\" + appDataFolder;
             string programDataBackupFolderPath = programDataPath + "\\migrationBackup" + backupTime;
             string applicationDataBackupFolderPath = applicationDataPath + "\\migrationBackup" + backupTime;
 
@@ -151,7 +151,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function createConfigFilesBackup() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function createConfigFilesBackup() - " + e.ToString());
                     continue;
                 }
             }
@@ -162,62 +162,62 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Creates a backup of the source simulator's config files.
          */
-        public static bool createSourceSimulatorBackup()
+        public static bool CreateSourceSimulatorBackup()
         {
-            SimulatorOption simOption = MainFormHandler.getSelectedSourceSimulator();
+            SimulatorOption simOption = MainFormHandler.GetSelectedSourceSimulator();
 
             if (simOption == null)
             {
                 return false;
             }
 
-            return createConfigFilesBackup(simOption.getProgramDataPath(), simOption.getAppDataPath(), false);
+            return CreateConfigFilesBackup(simOption.GetProgramDataPath(), simOption.GetAppDataPath(), false);
         }
 
         /**
          * Creates a backup of the target simulator's config files.
          */
-        public static bool createTargetSimulatorBackup()
+        public static bool CreateTargetSimulatorBackup()
         {
-            SimulatorOption simOption = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption simOption = MainFormHandler.GetSelectedTargetSimulator();
 
             if (simOption == null)
             {
                 return false;
             }
 
-            return createConfigFilesBackup(simOption.getProgramDataPath(), simOption.getAppDataPath(), true);
+            return CreateConfigFilesBackup(simOption.GetProgramDataPath(), simOption.GetAppDataPath(), true);
         }
 
         /**
          * Copies the config files from the target sim to the source sim.
          */
-        public static bool copyTargetSimFilesToSource()
+        public static bool CopyTargetSimFilesToSource()
         {
-            SimulatorOption sourceOption = MainFormHandler.getSelectedSourceSimulator();
-            SimulatorOption targetOption = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption sourceOption = MainFormHandler.GetSelectedSourceSimulator();
+            SimulatorOption targetOption = MainFormHandler.GetSelectedTargetSimulator();
 
             if (sourceOption == null || targetOption == null)
             {
                 return false;
             }
 
-            createTargetSimulatorBackup();
-            createSourceSimulatorBackup();
+            CreateTargetSimulatorBackup();
+            CreateSourceSimulatorBackup();
 
-            string sourceAppDataFolder = sourceOption.getAppDataPath(true);
-            string sourceProgramDataFolder = sourceOption.getProgramDataPath(true);
-            string targetAppDataFolder = targetOption.getAppDataPath(true);
-            string targetProgramDataFolder = targetOption.getProgramDataPath(true);
+            string sourceAppDataFolder = sourceOption.GetAppDataPath(true);
+            string sourceProgramDataFolder = sourceOption.GetProgramDataPath(true);
+            string targetAppDataFolder = targetOption.GetAppDataPath(true);
+            string targetProgramDataFolder = targetOption.GetProgramDataPath(true);
 
             foreach (string configFile in configFiles)
             {
                 string sourceConfigFile = configFile;
 
                 //Handling Prepar3d.CFG and FSX.CFG files.
-                if (configFile.Equals(targetOption.getSimConfigFile()))
+                if (configFile.Equals(targetOption.GetSimConfigFile()))
                 {
-                    sourceConfigFile = sourceOption.getSimConfigFile();
+                    sourceConfigFile = sourceOption.GetSimConfigFile();
                 }
 
                 try
@@ -234,12 +234,12 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy file, function copyTargetSimFilesToSource() - " + e.ToString());
+                    ErrorLogger.LogError("Could not copy file, function copyTargetSimFilesToSource() - " + e.ToString());
                     continue;
                 }
             }
 
-            HistoryHandler.appendHistory("3," + sourceOption.getValue());
+            HistoryHandler.AppendHistory("3," + sourceOption.GetValue());
 
             return true;
         }
@@ -247,15 +247,15 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Restores the source config files. Should be called on program startup.
          */
-        public static bool restoreSourceConfigFiles(SimulatorOption simOption)
+        public static bool RestoreSourceConfigFiles(SimulatorOption simOption)
         {
             if (simOption == null)
             {
                 return false;
             }
 
-            string sourceAppDataFolder = simOption.getAppDataPath(true);
-            string sourceProgramDataFolder = simOption.getProgramDataPath(true);
+            string sourceAppDataFolder = simOption.GetAppDataPath(true);
+            string sourceProgramDataFolder = simOption.GetProgramDataPath(true);
 
             foreach(string configFile in configFiles){
                 string completeAppDataBackupFilePath = sourceAppDataFolder + @"\migrationBackup\" + configFile;
@@ -269,7 +269,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                     }
                 }
                 catch(Exception e){
-                    ErrorLogger.logError("Could not copy or delete file at function restoreSourceConfigFiles() - " + e);
+                    ErrorLogger.LogError("Could not copy or delete file at function restoreSourceConfigFiles() - " + e);
                 }
 
                 try
@@ -282,7 +282,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
                 }
                 catch (Exception e)
                 {
-                    ErrorLogger.logError("Could not copy or delete file at function restoreSourceConfigFiles() - " + e);
+                    ErrorLogger.LogError("Could not copy or delete file at function restoreSourceConfigFiles() - " + e);
                 }
             }
 
@@ -292,7 +292,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
         /**
          * Copies a directory.
          */
-        public static bool copyDirectory(string sourceDirectory, string targetDirectory)
+        public static bool CopyDirectory(string sourceDirectory, string targetDirectory)
         {
             DirectoryInfo dir = new DirectoryInfo(sourceDirectory);
             DirectoryInfo[] dirs = dir.GetDirectories();
@@ -320,7 +320,7 @@ namespace Elad_s_Migration_Tool.FilesFunctions
             {
                 string temppath = Path.Combine(targetDirectory, subdir.Name);
 
-                copyDirectory(subdir.FullName, temppath);
+                CopyDirectory(subdir.FullName, temppath);
             }
 
             return true;

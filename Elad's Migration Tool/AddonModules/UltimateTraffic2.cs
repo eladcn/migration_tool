@@ -11,26 +11,18 @@ namespace Elad_s_Migration_Tool.AddonModules
 {
     class UltimateTraffic2
     {
-        protected SimulatorOption migrateTarget = MainFormHandler.getSelectedTargetSimulator();
+        protected SimulatorOption migrateTarget = MainFormHandler.GetSelectedTargetSimulator();
 
         protected static List<System.Timers.Timer> timers = new List<System.Timers.Timer>();
         protected const double TIMER_INTERVAL = 20; //defines how often should the timers run
 
         /**
-         * Constructor
-         */
-        public UltimateTraffic2()
-        {
-            
-        }
-
-        /**
          * Creates a listener for the SimObjects.cfg file.
          */
-        protected void createSimObjectsListener()
+        protected void CreateSimObjectsListener()
         {
             System.Timers.Timer timer = new System.Timers.Timer(1000 * TIMER_INTERVAL);
-            timer.Elapsed += delegate { modifySimObjects(timer); };
+            timer.Elapsed += delegate { ModifySimObjects(timer); };
             timer.Enabled = true;
             timer.Start();
             timers.Add(timer);
@@ -39,10 +31,10 @@ namespace Elad_s_Migration_Tool.AddonModules
         /**
          * Creates a listener for the UT2Settings.cfg file.
          */
-        protected void createUT2SettingsListener()
+        protected void CreateUT2SettingsListener()
         {
             System.Timers.Timer timer = new System.Timers.Timer(1000 * TIMER_INTERVAL);
-            timer.Elapsed += delegate { modifyUT2Settings(timer); };
+            timer.Elapsed += delegate { ModifyUT2Settings(timer); };
             timer.Enabled = true;
             timer.Start();
             timers.Add(timer);
@@ -51,21 +43,21 @@ namespace Elad_s_Migration_Tool.AddonModules
         /**
          * Initializes the UT2 file listeners.
          */
-        protected void initListeners()
+        protected void InitListeners()
         {
             if (timers.Count > 0) //It's already running
             {
                 return;
             }
 
-            createSimObjectsListener();
-            createUT2SettingsListener();
+            CreateSimObjectsListener();
+            CreateUT2SettingsListener();
         }
 
         /**
          * Stops the listeners.
          */
-        protected void stopListeners()
+        protected void StopListeners()
         {
             if (timers.Count <= 0) //There's nothing to stop
             {
@@ -83,37 +75,37 @@ namespace Elad_s_Migration_Tool.AddonModules
         /**
          * Starts the process of migrating the UT2 addon.
          */
-        public void start()
+        public void Start()
         {
-            string ultimateTraffic2Setting = SettingsHandler.getSetting("ultimateTraffic2");
+            string ultimateTraffic2Setting = SettingsHandler.GetSetting("ultimateTraffic2");
 
             if (ultimateTraffic2Setting.Equals("1"))
             {
-                initListeners();
+                InitListeners();
             }
         }
 
         /**
          * Stops the UT2 migration process.
          */
-        public void stop()
+        public void Stop()
         {
-            stopListeners();
+            StopListeners();
         }
 
         /**
          * Modifies the simobjects.cfg file.
          */
-        protected bool modifySimObjects(System.Timers.Timer timer)
+        protected bool ModifySimObjects(System.Timers.Timer timer)
         {
-            string file = migrateTarget.getProgramDataPath(true) + "\\simobjects.cfg";
+            string file = migrateTarget.GetProgramDataPath(true) + "\\simobjects.cfg";
 
             if (!File.Exists(file))
             {
                 return false;
             }
 
-            List<string> fileContent = Helper.getTextFileContent(file);
+            List<string> fileContent = Helper.GetTextFileContent(file);
 
             int lastEntry = 0;
 
@@ -156,21 +148,21 @@ namespace Elad_s_Migration_Tool.AddonModules
 
             if (!lastLineEmpty)
             {
-                if (!Helper.writeLineToText(file, ""))
+                if (!Helper.WriteLineToText(file, ""))
                 {
                     return false;
                 }
             }
 
-            if (!Helper.writeLineToText(file, "[Entry." + lastEntry + "]"))
+            if (!Helper.WriteLineToText(file, "[Entry." + lastEntry + "]"))
             {
                 return false;
             }
 
-            Helper.writeLineToText(file, "Title=Ultimate Traffic 2");
-            Helper.writeLineToText(file, @"Path=SimObjects\UT2 Aircraft");
-            Helper.writeLineToText(file, "Required=True");
-            Helper.writeLineToText(file, "Active=True");
+            Helper.WriteLineToText(file, "Title=Ultimate Traffic 2");
+            Helper.WriteLineToText(file, @"Path=SimObjects\UT2 Aircraft");
+            Helper.WriteLineToText(file, "Required=True");
+            Helper.WriteLineToText(file, "Active=True");
 
             return true;
         }
@@ -178,19 +170,19 @@ namespace Elad_s_Migration_Tool.AddonModules
         /**
          * Modifies the UT2settings.cfg file.
          */
-        protected bool modifyUT2Settings(System.Timers.Timer timer)
+        protected bool ModifyUT2Settings(System.Timers.Timer timer)
         {
-            string file = FilesHandler.getApplicationDataPath() + @"\Flight One Software\Ultimate Traffic 2\UT2settings.cfg";
+            string file = FilesHandler.GetApplicationDataPath() + @"\Flight One Software\Ultimate Traffic 2\UT2settings.cfg";
 
             if (!File.Exists(file))
             {
                 return false;
             }
 
-            List<string> fileContent = Helper.getTextFileContent(file);
+            List<string> fileContent = Helper.GetTextFileContent(file);
             List<string> newFileContent = new List<string>();
 
-            string newLine = "FSX Location=" + migrateTarget.getSimPath();
+            string newLine = "FSX Location=" + migrateTarget.GetSimPath();
 
             foreach (string line in fileContent)
             {
@@ -219,7 +211,7 @@ namespace Elad_s_Migration_Tool.AddonModules
 
             newFileContent.Add(newLine);
 
-            Helper.setTextFileContent(file, newFileContent);
+            Helper.SetTextFileContent(file, newFileContent);
 
             return true;
         }

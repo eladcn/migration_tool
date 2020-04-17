@@ -17,17 +17,17 @@ namespace Elad_s_Migration_Tool
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            staticWindowsStartupCheckbox = windowsStartupCheckbox;
-            staticAutoStartCheckbox = autoStartCheckbox;
-            staticUltimateTraffic2Checkbox = ultimateTraffic2Checkbox;
+            staticWindowsStartupCheckbox = WindowsStartupCheckbox;
+            staticAutoStartCheckbox = AutoStartCheckbox;
+            staticUltimateTraffic2Checkbox = UltimateTraffic2Checkbox;
 
-            SettingsFormHandler.onLoadHandler();
+            SettingsFormHandler.OnLoadHandler();
         }
 
         /**
          * Returns the windows startup checkbox object.
          */
-        public static CheckBox getWindowsStartupCheckbox()
+        public static CheckBox GetWindowsStartupCheckbox()
         {
             return staticWindowsStartupCheckbox;
         }
@@ -35,7 +35,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Returns the auto start checkbox.
          */
-        public static CheckBox getAutoStartCheckbox()
+        public static CheckBox GetAutoStartCheckbox()
         {
             return staticAutoStartCheckbox;
         }
@@ -43,24 +43,24 @@ namespace Elad_s_Migration_Tool
         /**
          * Returns the Ultimate Traffic 2 checkbox.
          */
-        public static CheckBox getUltimateTraffic2Checkbox()
+        public static CheckBox GetUltimateTraffic2Checkbox()
         {
             return staticUltimateTraffic2Checkbox;
         }
 
-        private void windowsStartupCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void WindowsStartupCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsFormHandler.onWindowsStartupCheckboxChange();
+            SettingsFormHandler.OnWindowsStartupCheckboxChange();
         }
 
-        private void autoStartCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void AutoStartCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsFormHandler.onAutoStartCheckboxChange();
+            SettingsFormHandler.OnAutoStartCheckboxChange();
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
+        private void CloseButton_Click(object sender, EventArgs e)
         {
-            MainForm.destroySettingsFormInstance();
+            MainForm.DestroySettingsFormInstance();
             this.Close();
         }
 
@@ -68,14 +68,14 @@ namespace Elad_s_Migration_Tool
         {
             base.OnFormClosing(e);
 
-            MainForm.destroySettingsFormInstance();
+            MainForm.DestroySettingsFormInstance();
 
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
         }
 
-        private void ultimateTraffic2Checkbox_CheckedChanged(object sender, EventArgs e)
+        private void UltimateTraffic2Checkbox_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsFormHandler.onUltimateTraffic2CheckboxChange();
+            SettingsFormHandler.OnUltimateTraffic2CheckboxChange();
         }
     }
 }

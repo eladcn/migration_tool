@@ -15,19 +15,19 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the onLoad of the settings form.
          */
-        public static void onLoadHandler()
+        public static void OnLoadHandler()
         {
-            windowsStartupCheckbox = SettingsForm.getWindowsStartupCheckbox();
-            autoStartCheckbox = SettingsForm.getAutoStartCheckbox();
-            ultimateTraffic2Checkbox = SettingsForm.getUltimateTraffic2Checkbox();
+            windowsStartupCheckbox = SettingsForm.GetWindowsStartupCheckbox();
+            autoStartCheckbox = SettingsForm.GetAutoStartCheckbox();
+            ultimateTraffic2Checkbox = SettingsForm.GetUltimateTraffic2Checkbox();
 
-            setIgnoreWindowsStartupChange(true);
-            setIgnoreAutoStartChange(true);
-            setIgnoreUltimateTraffic2Change(true);
+            SetIgnoreWindowsStartupChange(true);
+            SetIgnoreAutoStartChange(true);
+            SetIgnoreUltimateTraffic2Change(true);
 
-            string windowsStartup = SettingsHandler.getSetting("windowsStartup");
-            string autoStart = SettingsHandler.getSetting("autoStart");
-            string ultimateTraffic2 = SettingsHandler.getSetting("ultimateTraffic2");
+            string windowsStartup = SettingsHandler.GetSetting("windowsStartup");
+            string autoStart = SettingsHandler.GetSetting("autoStart");
+            string ultimateTraffic2 = SettingsHandler.GetSetting("ultimateTraffic2");
 
             if (windowsStartup.Equals("1"))
             {
@@ -44,15 +44,15 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 ultimateTraffic2Checkbox.Checked = true;
             }
 
-            setIgnoreWindowsStartupChange(false);
-            setIgnoreAutoStartChange(false);
-            setIgnoreUltimateTraffic2Change(false);
+            SetIgnoreWindowsStartupChange(false);
+            SetIgnoreAutoStartChange(false);
+            SetIgnoreUltimateTraffic2Change(false);
         }
 
         /**
          * Handles the windows startup checkbox change event.
          */
-        public static void onWindowsStartupCheckboxChange()
+        public static void OnWindowsStartupCheckboxChange()
         {
             //@todo CHECK IF WE SHOULD ADD THIS OPTION OR NOT
             if (!ignoreWindowsStartupChange)
@@ -71,17 +71,17 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the auto start checkbox change event.
          */
-        public static void onAutoStartCheckboxChange()
+        public static void OnAutoStartCheckboxChange()
         {
             if (!ignoreAutoStartChange)
             {
                 if (autoStartCheckbox.Checked)
                 {
-                    SettingsHandler.setSetting("autoStart", "1");
+                    SettingsHandler.SetSetting("autoStart", "1");
                 }
                 else
                 {
-                    SettingsHandler.setSetting("autoStart", "0");
+                    SettingsHandler.SetSetting("autoStart", "0");
                 }
             }
         }
@@ -89,17 +89,17 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Handles the Ultimate Traffic 2 checkbox change event
          */
-        public static void onUltimateTraffic2CheckboxChange()
+        public static void OnUltimateTraffic2CheckboxChange()
         {
             if (!ignoreUltimateTraffic2Change)
             {
                 if (ultimateTraffic2Checkbox.Checked)
                 {
-                    SettingsHandler.setSetting("ultimateTraffic2", "1");
+                    SettingsHandler.SetSetting("ultimateTraffic2", "1");
                 }
                 else
                 {
-                    SettingsHandler.setSetting("ultimateTraffic2", "0");
+                    SettingsHandler.SetSetting("ultimateTraffic2", "0");
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Sets whether should we ignore the on change event of the checkbox.
          */
-        public static void setIgnoreWindowsStartupChange(bool ignore)
+        public static void SetIgnoreWindowsStartupChange(bool ignore)
         {
             ignoreWindowsStartupChange = ignore;
         }
@@ -115,7 +115,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Sets whether should we ignore the on change event of the checkbox.
          */
-        public static void setIgnoreAutoStartChange(bool ignore)
+        public static void SetIgnoreAutoStartChange(bool ignore)
         {
             ignoreAutoStartChange = ignore;
         }
@@ -123,7 +123,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         /**
          * Sets whether should we ignore the on change event of the checkbox.
          */
-        public static void setIgnoreUltimateTraffic2Change(bool ignore)
+        public static void SetIgnoreUltimateTraffic2Change(bool ignore)
         {
             ignoreUltimateTraffic2Change = ignore;
         }

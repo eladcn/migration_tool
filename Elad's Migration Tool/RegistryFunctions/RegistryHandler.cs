@@ -9,36 +9,36 @@ namespace Elad_s_Migration_Tool.RegistryFunctions
         /**
          * Sets the path of the source simulator as the target.
          */
-        public static bool setSourceAsTarget()
+        public static bool SetSourceAsTarget()
         {
-            SimulatorOption sourceOption = MainFormHandler.getSelectedSourceSimulator();
-            SimulatorOption targetOption = MainFormHandler.getSelectedTargetSimulator();
+            SimulatorOption sourceOption = MainFormHandler.GetSelectedSourceSimulator();
+            SimulatorOption targetOption = MainFormHandler.GetSelectedTargetSimulator();
 
             if (sourceOption == null || targetOption == null)
             {
                 return false;
             }
 
-            string targetPath = targetOption.getSimPath();
+            string targetPath = targetOption.GetSimPath();
             int registryIndex = 0;
 
-            foreach (string registryPath in sourceOption.getRegistryPaths())
+            foreach (string registryPath in sourceOption.GetRegistryPaths())
             {
-                string sourcePath = RegistryInterface.getRegistryValue(registryPath);
-                RegistryInterface.setRegistryValue(registryPath, targetPath, true);
+                string sourcePath = RegistryInterface.GetRegistryValue(registryPath);
+                RegistryInterface.SetRegistryValue(registryPath, targetPath, true);
 
                 string log = "";
 
                 if (!sourcePath.Equals("") && sourcePath != null)
                 {
-                    log = "1," + sourceOption.getValue() + "," + registryIndex + "," + sourcePath;
+                    log = "1," + sourceOption.GetValue() + "," + registryIndex + "," + sourcePath;
                 }
                 else
                 {
-                    log = "1," + sourceOption.getValue() + "," + registryIndex + ",0";
+                    log = "1," + sourceOption.GetValue() + "," + registryIndex + ",0";
                 }
 
-                HistoryHandler.appendHistory(log);
+                HistoryHandler.AppendHistory(log);
 
                 registryIndex++;
             }

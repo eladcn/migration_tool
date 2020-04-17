@@ -9,9 +9,9 @@ namespace Elad_s_Migration_Tool.Logs
         /**
          * Writes data to the log file.
          */
-        public static void logError(string data)
+        public static void LogError(string data)
         {
-            Helper.writeLineToText(errorLogFile, data);
+            Helper.WriteLineToText(errorLogFile, data);
         }
     }
 }

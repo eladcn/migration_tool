@@ -12,7 +12,6 @@ namespace Elad_s_Migration_Tool
 
         protected static SettingsForm settingsForm;
         protected static FileRestorationForm fileRestorationForm;
-        protected static FixSceneryForm fixSceneryForm;
 
         public MainForm()
         {
@@ -22,21 +21,21 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles the form load functions.
          */
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            staticSourceMigrationCombo = migrateSourceCombo;
-            staticTargetMigrationCombo = migrateTargetCombo;
-            staticStartMigrationButton = startMigrationButton;
+            staticSourceMigrationCombo = MigrateSourceCombo;
+            staticTargetMigrationCombo = MigrateTargetCombo;
+            staticStartMigrationButton = StartMigrationButton;
 
-            MainFormHandler.onLoadHandler();
+            MainFormHandler.OnLoadHandler();
         }
 
         /**
          * Handles pressing on the exit button in the menu strip.
          */
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainFormHandler.exitHandler();
+            MainFormHandler.ExitHandler();
         }
 
         /**
@@ -46,7 +45,7 @@ namespace Elad_s_Migration_Tool
         {
             base.OnFormClosing(e);
 
-            MainFormHandler.exitHandler();
+            MainFormHandler.ExitHandler();
 
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
         }
@@ -54,7 +53,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Returns the migrate source combo object.
          */
-        public static ComboBox getMigrateSourceCombo()
+        public static ComboBox GetMigrateSourceCombo()
         {
             return staticSourceMigrationCombo;
         }
@@ -62,7 +61,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Returns the migrate target combo object.
          */
-        public static ComboBox getMigrateTargetCombo()
+        public static ComboBox GetMigrateTargetCombo()
         {
             return staticTargetMigrationCombo;
         }
@@ -70,7 +69,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Returns the start migrate button object.
          */
-        public static Button getStartMigrateButton()
+        public static Button GetStartMigrateButton()
         {
             return staticStartMigrationButton;
         }
@@ -78,31 +77,31 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles change of the migrateSourceCombo.
          */
-        protected void migrateSourceCombo_SelectedIndexChanged(object sender, EventArgs e)
+        protected void MigrateSourceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainFormHandler.sourceMigrationChangeHandler();
+            MainFormHandler.SourceMigrationChangeHandler();
         }
 
         /**
          * Handles change of the migrateTargetCombo.
          */
-        protected void migrateTargetCombo_SelectedIndexChanged(object sender, EventArgs e)
+        protected void MigrateTargetCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainFormHandler.targetMigrationChangeHandler();
+            MainFormHandler.TargetMigrationChangeHandler();
         }
 
         /**
          * Handles click of the startMigrationButton.
          */
-        private void startMigrationButton_Click(object sender, EventArgs e)
+        private void StartMigrationButton_Click(object sender, EventArgs e)
         {
-            MainFormHandler.startMigrationHandler();
+            MainFormHandler.StartMigrationHandler();
         }
 
         /**
          * Handles click of the About button in the menu strip.
          */
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This program was created by Elad Cohen.\nI hope you enjoy the program and if you have any problems or questions, please send me an email to:\neladcn92@gmail.com");
         }
@@ -110,7 +109,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles click of the how to use button in the menu strip.
          */
-        private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HowToUseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Please follow the following steps:\n" +
                             "1. Select the simulator that the add-ons are applicable to - you don't need to have this simulator installed!\n" +
@@ -123,23 +122,15 @@ namespace Elad_s_Migration_Tool
         /**
          * Destroys the settings form instance.
          */
-        public static void destroySettingsFormInstance()
+        public static void DestroySettingsFormInstance()
         {
             settingsForm = null;
         }
 
         /**
-         * Destroys the settings form instance.
-         */
-        public static void destroyFixSceneryFormInstance()
-        {
-            fixSceneryForm = null;
-        }
-
-        /**
          * Destroys the file restoration form instance.
          */
-        public static void destroyFileRestorationInstance()
+        public static void DestroyFileRestorationInstance()
         {
             fileRestorationForm = null;
         }
@@ -147,7 +138,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles click of the settings button in the menu strip.
          */
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (settingsForm == null)
             {
@@ -159,7 +150,7 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles click of the restore configuration files button in the menu strip.
          */
-        private void restoreConfigFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RestoreConfigFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (fileRestorationForm == null)
             {
@@ -171,23 +162,11 @@ namespace Elad_s_Migration_Tool
         /**
          * Handles click of the disclaimer button in the menu strip.
          */
-        private void disclaimerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DisclaimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("It's highly recommended that you create a System Restore point before using this program." +
                             "\nI will not be responsible for any damage this program may do to your simulator or to your operating system." +
                             "\nPlease refer to the ReadMe.txt file for more information.");
-        }
-
-        /**
-         * Handles click of the fix scenery button in the menu strip.
-         */
-        private void fixSceneryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (fixSceneryForm == null)
-            {
-                fixSceneryForm = new FixSceneryForm();
-                fixSceneryForm.Show();
-            }
         }
     }
 }

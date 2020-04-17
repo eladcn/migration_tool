@@ -14,26 +14,26 @@ namespace Elad_s_Migration_Tool
             InitializeComponent();
         }
 
-        protected void closeButton_Click(object sender, EventArgs e)
+        protected void CloseButton_Click(object sender, EventArgs e)
         {
-            MainForm.destroyFileRestorationInstance();
+            MainForm.DestroyFileRestorationInstance();
             this.Close();
         }
 
         private void FileRestoration_Load(object sender, EventArgs e)
         {
-            staticRestoreDatesCombo = restoreDatesCombo;
-            staticRestoreButton = restoreButton;
+            staticRestoreDatesCombo = RestoreDatesCombo;
+            staticRestoreButton = RestoreButton;
 
-            FileRestorationFormHandler.onLoadHandler();
+            FileRestorationFormHandler.OnLoadHandler();
         }
 
-        public static ComboBox getRestoreDatesCombo()
+        public static ComboBox GetRestoreDatesCombo()
         {
             return staticRestoreDatesCombo;
         }
 
-        public static Button getRestoreButton()
+        public static Button GetRestoreButton()
         {
             return staticRestoreButton;
         }
@@ -42,19 +42,19 @@ namespace Elad_s_Migration_Tool
         {
             base.OnFormClosing(e);
 
-            MainForm.destroyFileRestorationInstance();
+            MainForm.DestroyFileRestorationInstance();
 
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
         }
 
-        private void restoreButton_Click(object sender, EventArgs e)
+        private void RestoreButton_Click(object sender, EventArgs e)
         {
-            if (restoreDatesCombo.Items.Count > 0)
+            if (RestoreDatesCombo.Items.Count > 0)
             {
-                if (FileRestorationFormHandler.restoreFiles(restoreDatesCombo.Text))
+                if (FileRestorationFormHandler.RestoreFiles(RestoreDatesCombo.Text))
                 {
                     MessageBox.Show("The config files have been successfully restored.");
-                    MainForm.destroyFileRestorationInstance();
+                    MainForm.DestroyFileRestorationInstance();
                     this.Close();
                 }
             }
