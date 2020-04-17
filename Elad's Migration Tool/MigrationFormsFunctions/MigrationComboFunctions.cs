@@ -10,16 +10,16 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
         protected static List<SimulatorOption> allSimulatorOptions = SimulatorOptions.GetAllSimulatorOptions();
         protected static List<SimulatorOption> simOptionsInPC = SimulatorOptions.GetSimOptionsInPC();
 
-        protected static int[] defaultIgnoreFromMigrationItems = { 6 };
-        protected static int[] defaultIgnoreToMigrationItems = { 1, 2 };
-        protected static int defaultMigrateTo = 6;
+        protected static int[] defaultIgnoreFromMigrationItems = { SimulatorOptions.P3D_V4_VALUE };
+        protected static int[] defaultIgnoreToMigrationItems = { SimulatorOptions.FSX_VALUE, SimulatorOptions.FSX_SE_VALUE };
+        protected static int defaultMigrateTo = SimulatorOptions.P3D_V4_VALUE;
 
         protected static bool defaultTargetChosen = false;
 
         /**
          * Fills a specific combo box with the migration options.
          */
-        protected static void FillMigrationComboOptions(ComboBox combo, int[] ignoreID, bool onlyInPC)
+        protected static void FillMigrationComboOptions(ComboBox combo, int[] ignoreIDs, bool onlyInPC)
         {
             combo.Items.Clear();
 
@@ -32,7 +32,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                     continue;
                 }
 
-                if (ignoreID.Contains(optionObject.GetValue()))
+                if (ignoreIDs.Contains(optionObject.GetValue()))
                 {
                     continue;
                 }
@@ -45,7 +45,7 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 combo.Items.Add(optionObject);
             }
 
-            //Making sure the migration change event does not fire, or else an endless recursion will occur
+            //Making sure the migration change event does not fire, or else an endless recursion will occur.
             MainFormHandler.SetIgnoreSourceMigrationChange(true);
             MainFormHandler.SetIgnoreTargetMigrationChange(true);
 
@@ -162,10 +162,11 @@ namespace Elad_s_Migration_Tool.MigrationFormsFunctions
                 }
             }
 
-            if(ignoreID > 0){
+            if (ignoreID > 0)
+            {
                 int defaultLength = defaultIgnoreToMigrationItems.Length;
-
                 int[] ignoreIDs = new int[defaultLength + 1];
+
                 defaultIgnoreToMigrationItems.CopyTo(ignoreIDs, 0);
                 ignoreIDs[defaultLength] = ignoreID;
 

@@ -6,6 +6,13 @@ namespace Elad_s_Migration_Tool.General
 {
     class SimulatorOptions
     {
+        public const int FSX_VALUE = 1;
+        public const int FSX_SE_VALUE = 2;
+        public const int P3D_V1_VALUE = 3;
+        public const int P3D_V2_VALUE = 4;
+        public const int P3D_V3_VALUE = 5;
+        public const int P3D_V4_VALUE = 6;
+
         protected static SimulatorOptions instance = null;
 
         protected List<SimulatorOption> simOptions = new List<SimulatorOption>();
@@ -192,7 +199,7 @@ namespace Elad_s_Migration_Tool.General
                 "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Microsoft Games\\Flight Simulator\\10.0\\AppPath"
             };
 
-            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX", 1, "fsx.cfg");
+            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX", FSX_VALUE, "fsx.cfg");
         }
 
         /**
@@ -211,7 +218,7 @@ namespace Elad_s_Migration_Tool.General
                 "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Microsoft Games\\Flight Simulator\\10.0\\SetupPath"
             };
 
-            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX Steam Edition", 2, "fsx.cfg");
+            InitializeSim(registryPaths, "Microsoft\\FSX", "Microsoft\\FSX", "FSX Steam Edition", FSX_SE_VALUE, "fsx.cfg");
         }
 
         protected void initializePrepar3D(string name, int value)
@@ -239,7 +246,7 @@ namespace Elad_s_Migration_Tool.General
          */
         protected void InitializePrepar3Dv1()
         {
-            initializePrepar3D("Prepar3D", 3);
+            initializePrepar3D("Prepar3D", P3D_V1_VALUE);
         }
 
         /**
@@ -247,7 +254,7 @@ namespace Elad_s_Migration_Tool.General
          */
         protected void InitializePrepar3Dv2()
         {
-            initializePrepar3D("Prepar3D v2", 4);
+            initializePrepar3D("Prepar3D v2", P3D_V2_VALUE);
         }
 
         /**
@@ -255,7 +262,7 @@ namespace Elad_s_Migration_Tool.General
          */
         protected void InitializePrepar3Dv3()
         {
-            initializePrepar3D("Prepar3D v3", 5);
+            initializePrepar3D("Prepar3D v3", P3D_V3_VALUE);
         }
 
         /**
@@ -263,7 +270,7 @@ namespace Elad_s_Migration_Tool.General
          */
         protected void InitializePrepar3Dv4()
         {
-            initializePrepar3D("Prepar3D v4", 6);
+            initializePrepar3D("Prepar3D v4", P3D_V4_VALUE);
         }
     }
 }
