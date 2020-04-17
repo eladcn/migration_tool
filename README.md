@@ -1,5 +1,5 @@
 # Elad's Migration Tool
-This tool helps you install add-ons that are compatible with some simulators based on Microsoft's ESP (like FSX and Lockheed Martin's Prepar3D) to other simulators that are not officially supported by the add-ons' makers.  
+This tool helps you install add-ons that are compatible with some simulators based on Microsoft's ESP (such as FSX and Lockheed Martin's Prepar3D) to other simulators that are not officially supported by the add-ons' makers.  
 This is the original program along with its source code.  
 This is the same tool that was previously available on www.migration-tool.co.nf.
 
